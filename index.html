@@ -24,7 +24,7 @@
     </style>
   </head>
   <body
-    class="bg-[#030712] font-agale h-screen overflow-hidden flex items-center justify-center relative"
+    class="bg-[#030712] font-agale fixed inset-0 w-full h-[100dvh] overflow-hidden flex items-center justify-center overscroll-none"
   >
     <div
       id="aurora"
@@ -117,7 +117,6 @@
     </div>
 
     <script>
-      // Arka plandaki bulut efekti cihaz bağımsız her zaman çalışacak
       gsap.to(".blob", {
         x: "random(-30, 30)",
         y: "random(-30, 30)",
@@ -127,7 +126,6 @@
         ease: "sine.inOut",
       });
 
-      // Animasyonları cihaza göre ayırmak için matchMedia yapısı
       const mm = gsap.matchMedia();
 
       mm.add(
@@ -140,7 +138,6 @@
 
           const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
 
-          // Ortak başlangıç değerleri
           gsap.set(".mark-piece", {
             opacity: 0,
             scale: 0.6,
@@ -148,14 +145,12 @@
             transformOrigin: "center",
           });
 
-          // Masaüstü için yatay, mobil için dikey başlangıç
           if (isDesktop) {
             gsap.set("#textBlock", { width: 0, height: "auto", opacity: 0 });
           } else {
             gsap.set("#textBlock", { width: "auto", height: 0, opacity: 0 });
           }
 
-          // Ortak efektler
           tl.to("#aurora", { opacity: 0.8, duration: 1.2 }, 0);
           tl.to(
             ".mark-piece",
@@ -169,7 +164,6 @@
             0.2,
           );
 
-          // Kutu animasyonu cihaz tespiti ile çalışır
           if (isDesktop) {
             tl.to(
               "#textBlock",
@@ -184,7 +178,6 @@
             );
           }
 
-          // Yazı içi animasyonlar
           tl.to("#hexa", { y: 0, duration: 1.2 }, 1.2);
           tl.to(
             "#dijital",
@@ -192,7 +185,6 @@
             1.6,
           );
 
-          // Ekran boyutu değiştiğinde animasyonları temizleyip baştan başlatır
           return () => {
             tl.kill();
           };
