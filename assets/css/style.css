@@ -1,0 +1,513 @@
+/* --- ÖNCEKİ CSS'LER AYNEN KALACAK (Root, Body, Loader, Nav vb.) --- */
+:root {
+  /* Zemin: Neredeyse Tam Siyah */
+  --c-bg: #0a0a0a; 
+  
+  /* Metin: Kırık beyaz */
+  --c-text: #ededed; 
+  
+  /* Alt Metin: Nötr gri */
+  --c-subtext: #a1a1aa; 
+  
+  /* Vurgu: Zümrüt Yeşili (Başarı/Onay rengi) */
+  --c-accent: #10b981; 
+  
+  /* Kenarlık: Çok silik gri */
+  --c-border: #262626; 
+  
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+}* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+/* --- LOGO / BRAND DÜZENLEMESİ --- */
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%; /* Navbar yüksekliğini kapsasın */
+  text-decoration: none; /* Link olursa alt çizgi olmasın */
+}
+
+.brand img {
+  /* Navbar 80px. Logo 40-45px olursa alttan üstten boşluk kalır, ferah durur */
+  height: 120px;
+  width: 200px;
+  width: auto; /* En-boy oranını (aspect ratio) otomatik korur */
+  display: block; /* Resim altındaki varsayılan boşluğu siler */
+  object-fit: contain; /* Resim sündürülmeden kutuya sığar */
+
+  /* Ufak bir hover efekti için geçiş */
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Mouse ile üzerine gelince çok hafif büyüme hissi */
+.brand:hover img {
+  transform: scale(1.05);
+}
+
+/* Mobil uyumluluk: Mobilde logo çok büyük kalmasın */
+@media (max-width: 768px) {
+  .brand img {
+    height: 32px;
+  }
+}
+/* ... Loader, Grid-BG, Nav CSS'leri buraya gelecek (değişmedi) ... */
+/* Kopyala-Yapıştır kolaylığı için sadece değişen kısımları yazıyorum */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loader-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #050505;
+  z-index: 0;
+}
+#loaderCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.loader-text {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -2px;
+  z-index: 2;
+  mix-blend-mode: difference;
+}
+
+.loader-text img {
+  /* Tarayıcıya bu elementin transform (boyut/konum) değişikliği yapacağını söyler */
+  will-change: transform, opacity;
+
+  /* GPU Hızlandırmayı tetikler (Hack) */
+  transform: translateZ(0);
+
+  /* Resim ölçeklenirken kenarları yumuşatır, performansı artırabilir */
+  backface-visibility: hidden;
+}
+
+/* --- TEKNİK GRID ARKAPLAN (GÜNCELLENDİ: HEXAGON/PETEK) --- */
+/* --- TEKNİK GRID ARKAPLAN (GÜNCELLENDİ: TEK ÇİZGİLİ NET PETEK) --- */
+/* --- DUZELTILMIS GRID: YATIK PETEK (KÜP GÖRÜNMEZ) --- */
+/* --- PERFECT HONEYCOMB (KUSURSUZ PETEK) --- */
+/* --- OPTİK YANILSAMASIZ: DÜZ (FLAT) PETEK DOKUSU --- */
+/* --- %100 DÜZELTİLMİŞ: YATIK (FLAT) PETEK DOKUSU --- */
+/* --- KUSURSUZ PETEK (YATIK & GENİŞ) --- */
+/* --- %100 ORİJİNAL ALTIGEN (STANDART PETEK) --- */
+.grid-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23e0e0e0' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 56px 100px;
+  background-repeat: repeat;
+}
+
+.ambient-glow {
+  position: absolute;
+  right: -10%;
+  top: 20%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(
+    circle,
+    rgba(255, 68, 0, 0.15) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  filter: blur(80px);
+  z-index: -1;
+  opacity: 0;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  padding: 0 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  opacity: 0;
+  transform: translateY(-20px);
+  background: rgba(248, 249, 250, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--c-border);
+}
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  color: var(--c-text);
+}
+.brand-icon {
+  width: 24px;
+  height: 24px;
+  background: var(--c-accent);
+  border-radius: 4px;
+}
+.menu-btn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--c-text);
+  text-decoration: none;
+  border: 1px solid var(--c-border);
+  padding: 10px 20px;
+  border-radius: 6px;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+.menu-btn:hover {
+  background: var(--c-text);
+  color: #fff;
+  border-color: var(--c-text);
+}
+
+/* --- YENİ HERO DÜZENİ (BURASI DEĞİŞTİ) --- */
+.hero {
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* Sol taraf biraz daha geniş */
+  align-items: center;
+  padding: 0 5% 0 10%; /* Sağdan biraz daha az padding */
+  position: relative;
+}
+
+/* SOL TARAF (METİNLER) */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--c-accent);
+  margin-bottom: 1.5rem;
+  padding: 6px 12px;
+  background: rgba(255, 68, 0, 0.08);
+  border: 1px solid rgba(255, 68, 0, 0.2);
+  border-radius: 4px;
+  opacity: 0;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 4.5vw; /* Biraz küçüldü ki sığsın */
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  color: var(--c-text);
+  margin-bottom: 2rem;
+}
+
+.line {
+  overflow: hidden;
+  display: block;
+}
+.line span {
+  display: block;
+  transform: translateY(120%);
+}
+.outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--c-text);
+  font-weight: 300;
+}
+
+.hero-desc {
+  max-width: 90%;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--c-subtext);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.cta-group {
+  display: flex;
+  gap: 20px;
+  opacity: 0;
+}
+.primary-btn {
+  padding: 16px 32px;
+  background: var(--c-text);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: 0.3s;
+  display: inline-block;
+}
+.primary-btn:hover {
+  background: var(--c-accent);
+}
+.secondary-btn {
+  padding: 16px 32px;
+  background: transparent;
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: 0.3s;
+  display: inline-block;
+}
+.secondary-btn:hover {
+  background: #fff;
+  border-color: var(--c-text);
+}
+
+/* SAĞ TARAF (YENİ GÖRSEL ALAN) */
+.hero-visual {
+  position: relative;
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px; /* 3D derinlik hissi */
+  opacity: 0; /* Animasyonla gelecek */
+}
+
+/* Yüzen Kartlar (Glassmorphism) */
+.float-card {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  transition: transform 0.5s ease;
+}
+
+/* Kart 1: Ana Dashboard (Büyük) */
+.card-main {
+  width: 320px;
+  height: 200px;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: floatMain 6s ease-in-out infinite;
+}
+
+/* Kart İçeriği Simülasyonu */
+.skeleton-line {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.skeleton-line.short {
+  width: 60%;
+}
+.skeleton-circle {
+  width: 40px;
+  height: 40px;
+  background: #f0f0f0;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #888;
+  border: 1px solid #ddd;
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--c-text);
+  margin-bottom: 5px;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--c-subtext);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.stat-up {
+  color: #00c853;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Kart 2: Küçük İkon (Sol Üst) */
+.card-small-1 {
+  width: 140px;
+  height: 140px;
+  top: 20%;
+  left: 10%;
+  z-index: 1;
+  align-items: center;
+  animation: floatDelay 7s ease-in-out infinite;
+}
+
+/* Kart 3: Geniş İnce (Sağ Alt) */
+.card-small-2 {
+  width: 200px;
+  height: 80px;
+  bottom: 15%;
+  right: 5%;
+  z-index: 3;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  animation: floatReverse 8s ease-in-out infinite;
+}
+
+/* Floating Animasyonları */
+@keyframes floatMain {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-15px);
+  }
+}
+@keyframes floatDelay {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+@keyframes floatReverse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(15px);
+  }
+}
+
+/* --- YENİ KART İÇERİK STİLLERİ --- */
+.quality-label {
+  font-size: 0.75rem;
+  color: var(--c-subtext);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-bg {
+  width: 100%;
+  height: 6px;
+  background: #eee;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--c-text);
+  border-radius: 10px;
+  width: 0;
+  animation: fillBar 1.5s ease-out forwards 1s;
+}
+.color-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: -10px;
+  border: 2px solid #fff;
+}
+
+@keyframes fillBar {
+  to {
+    width: 100%;
+  }
+}
+/* Footer (Aynı kaldı) */
+
+/* Responsive Düzenleme */
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 0 20px;
+    height: auto;
+    min-height: 100vh;
+    padding-top: 100px;
+  }
+  .hero-content {
+    align-items: center;
+    margin-bottom: 50px;
+  }
+  .hero-visual {
+    height: 400px;
+    width: 100%;
+  }
+  h1 {
+    font-size: 8vw;
+  }
+  .hero-desc {
+    max-width: 100%;
+  }
+  .card-main {
+    width: 260px;
+  }
+}
