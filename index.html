@@ -7,136 +7,367 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
+      /* Sadece Logo için Özel Font */
       @font-face {
         font-family: "Agale";
-        src: url("assets/fonts/Agale.otf") format("opentype");
+        src: url("assets/fonts/Agale.woff2") format("opentype");
         font-display: swap;
       }
       .font-agale {
         font-family: "Agale", sans-serif;
       }
+
+      /* Tüm site için genel font */
+      body {
+        font-family: "Space Grotesk", sans-serif;
+        background-color: #030712;
+        color: #e2e8f0;
+      }
+
       .brand-dijital {
         line-height: 1.4;
         padding-bottom: 0.5rem;
         display: inline-block;
       }
+
+      /* Dijital Premium Arkaplan Izgarası */
+      .bg-grid {
+        background-size: 40px 40px;
+        background-image:
+          linear-gradient(
+            to right,
+            rgba(0, 255, 209, 0.02) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(0, 255, 209, 0.02) 1px,
+            transparent 1px
+          );
+      }
+
+      /* Neon Mint parlama efekti */
+      .glow-mint {
+        box-shadow: 0 0 20px rgba(0, 255, 209, 0.25);
+      }
+
+      /* CSS Değişkeni olarak ana rengimiz */
+      :root {
+        --neon-mint: #00ffd1;
+      }
     </style>
   </head>
-  <body
-    class="bg-[#030712] font-agale fixed inset-0 w-full h-[100dvh] overflow-hidden flex items-center justify-center overscroll-none"
-  >
+
+  <body class="overscroll-none overflow-x-hidden bg-grid">
     <div
-      id="aurora"
-      class="absolute inset-0 z-0 blur-[130px] opacity-0 pointer-events-none"
+      id="splash-screen"
+      class="fixed inset-0 z-50 w-full h-[100dvh] overflow-hidden flex items-center justify-center bg-[#030712]"
     >
       <div
-        class="blob absolute rounded-full bg-cyan-400/20 w-[60vw] h-[60vw] -top-1/4 -left-1/4 mix-blend-screen"
-      ></div>
-      <div
-        class="blob absolute rounded-full bg-purple-500/15 w-[70vw] h-[70vw] -bottom-1/4 -right-1/4 mix-blend-screen"
-      ></div>
-    </div>
-
-    <div
-      id="masterWrapper"
-      class="relative z-10 flex flex-col md:flex-row items-center justify-center"
-    >
-      <div id="markGroup" class="flex-shrink-0 mb-6 md:mb-0">
-        <svg
-          viewBox="340 320 400 440"
-          class="w-28 h-28 md:w-52 md:h-52 drop-shadow-[0_0_20px_rgba(255,255,255,0.15)]"
-        >
-          <g class="fill-white">
-            <path
-              id="borderTrace"
-              d="M540,325 L685,410 L685,580 L540,665 L395,580 L395,410 Z"
-              fill="none"
-              stroke="#ca8a04"
-              stroke-width="4"
-              stroke-linecap="round"
-              style="filter: drop-shadow(0 0 8px #ca8a04); opacity: 0"
-            />
-            <path
-              d="M425.5,432.1l45.6,108.6-45.6,108.7-37.2-21.7-.3-173.6c.3-1.9,2.5-2.8,4.1-3.8,7.5-4.9,22.4-14,30.3-17.4s2-1,3.1-.8Z"
-              class="mark-piece"
-            />
-            <polygon
-              points="690.4 452.4 690.6 628 655.5 647.9 610.7 542.5 610.4 540.1 655.5 433.4 690.4 452.4"
-              class="mark-piece"
-            />
-            <path
-              d="M541.8,534.6c-2.5,2.1-4-5.7-4.7-7.2-18.6-42.7-36-85.9-53.8-128.9l56-32.8,58.2,34.2-55.6,134.6Z"
-              class="mark-piece"
-            />
-            <polygon
-              points="483.4 683.2 540.7 546.9 597.3 681.4 540 715.1 483.4 683.2"
-              class="mark-piece"
-            />
-            <path
-              d="M412.5,401.1l.7,2.4-54.6,32.7-.2,207.1,1.2,2.4,52.7,30.4c1.8,1.2.7,2.7.3,4.4-.6.5-12.2-7.3-13.8-8.2-12.4-7.1-24.8-14.1-37.1-21.4-2.6-1.5-4.7-.7-5.8-5l-.2-210.3c.9-4.5,3-3.8,5.5-5.3,16.2-9.6,32.5-18.8,48.5-28.8l2.8-.3Z"
-              class="mark-piece"
-            />
-            <path
-              d="M668.2,679l-.6-3.5,52.5-29.8v-210.2c.1,0-52.2-30.8-52.2-30.8l.7-2.9c5.5,3.3,11.3,5.9,16.9,9.1,9.6,5.5,19.1,11.7,28.7,17.5,2.6,1.6,8.2,2.7,8.9,6.3l-.4,212.6c-1.9,3.1-5.7,3.5-8.5,5.2-11.2,6.8-22.4,13.8-33.8,20.4-3.9,2.2-8.3,4-12.2,6.2Z"
-              class="mark-piece"
-            />
-            <path
-              d="M623.4,375c-.2,1.2-3.9.8-4.7.7-1.2-.1-2.4,0-3.5-.8l-75.9-44-75.9,44-7.5.8,12.4-8.2c16.6-9,32.9-18.6,49.4-27.9s12.5-8.4,17.2-10.2c7.7-3,10,1.2,16,4.5,23.2,12.5,46.5,26.1,69.2,39.8,1,.6,2.2,1.1,3.4,1.3Z"
-              class="mark-piece"
-            />
-            <path
-              d="M620.5,706.4l-9.7,6.5c-20.2,10.8-39.8,23.1-59.9,33.9-6,3.2-8.3,7.5-16,4.5-2.6-1-4.5-3.3-6.5-4.4-3.7-2-7.1-3.9-10.7-5.9-20-11.2-39.9-22.6-59.6-34.3h7.2s74,43,74,43l74-42.9,7.2-.4Z"
-              class="mark-piece"
-            />
-          </g>
-        </svg>
-      </div>
-
-      <div
-        id="textBlock"
-        class="flex flex-col items-center md:items-start overflow-hidden opacity-0"
+        id="aurora"
+        class="absolute inset-0 z-0 blur-[130px] opacity-0 pointer-events-none"
       >
         <div
-          class="relative overflow-hidden w-full flex justify-center md:justify-start"
-        >
-          <h1
-            id="hexa"
-            class="text-white leading-[0.8] text-[clamp(4.5rem,10vw,8.5rem)] translate-y-full px-10 md:px-14 text-center md:text-left"
-          >
-            HEXA
-          </h1>
-        </div>
-        <p
-          id="dijital"
-          class="brand-dijital w-full font-black text-[#ca8a04] tracking-[0.7em] opacity-0 -translate-x-12 px-10 md:px-14 text-[clamp(1.8rem,3.2vw,3rem)] text-center md:text-left ml-[0.7em] md:ml-0"
-        >
-          Dijital
-        </p>
+          class="blob absolute rounded-full bg-[#00ffd1]/20 w-[60vw] h-[60vw] -top-1/4 -left-1/4 mix-blend-screen"
+        ></div>
+        <div
+          class="blob absolute rounded-full bg-purple-500/15 w-[70vw] h-[70vw] -bottom-1/4 -right-1/4 mix-blend-screen"
+        ></div>
       </div>
+
+      <div
+        id="masterWrapper"
+        class="relative z-10 flex flex-col md:flex-row items-center justify-center"
+      >
+        <div id="markGroup" class="flex-shrink-0 mb-6 md:mb-0">
+          <svg
+            viewBox="340 320 400 440"
+            class="w-28 h-28 md:w-52 md:h-52 drop-shadow-[0_0_20px_rgba(0,255,209,0.3)]"
+          >
+            <g class="fill-white">
+              <path
+                id="borderTrace"
+                d="M540,325 L685,410 L685,580 L540,665 L395,580 L395,410 Z"
+                fill="none"
+                stroke="#00ffd1"
+                stroke-width="4"
+                stroke-linecap="round"
+                style="filter: drop-shadow(0 0 12px #00ffd1); opacity: 0"
+              />
+              <path
+                d="M425.5,432.1l45.6,108.6-45.6,108.7-37.2-21.7-.3-173.6c.3-1.9,2.5-2.8,4.1-3.8,7.5-4.9,22.4-14,30.3-17.4s2-1,3.1-.8Z"
+                class="mark-piece"
+              />
+              <polygon
+                points="690.4 452.4 690.6 628 655.5 647.9 610.7 542.5 610.4 540.1 655.5 433.4 690.4 452.4"
+                class="mark-piece"
+              />
+              <path
+                d="M541.8,534.6c-2.5,2.1-4-5.7-4.7-7.2-18.6-42.7-36-85.9-53.8-128.9l56-32.8,58.2,34.2-55.6,134.6Z"
+                class="mark-piece"
+              />
+              <polygon
+                points="483.4 683.2 540.7 546.9 597.3 681.4 540 715.1 483.4 683.2"
+                class="mark-piece"
+              />
+              <path
+                d="M412.5,401.1l.7,2.4-54.6,32.7-.2,207.1,1.2,2.4,52.7,30.4c1.8,1.2.7,2.7.3,4.4-.6.5-12.2-7.3-13.8-8.2-12.4-7.1-24.8-14.1-37.1-21.4-2.6-1.5-4.7-.7-5.8-5l-.2-210.3c.9-4.5,3-3.8,5.5-5.3,16.2-9.6,32.5-18.8,48.5-28.8l2.8-.3Z"
+                class="mark-piece"
+              />
+              <path
+                d="M668.2,679l-.6-3.5,52.5-29.8v-210.2c.1,0-52.2-30.8-52.2-30.8l.7-2.9c5.5,3.3,11.3,5.9,16.9,9.1,9.6,5.5,19.1,11.7,28.7,17.5,2.6,1.6,8.2,2.7,8.9,6.3l-.4,212.6c-1.9,3.1-5.7,3.5-8.5,5.2-11.2,6.8-22.4,13.8-33.8,20.4-3.9,2.2-8.3,4-12.2,6.2Z"
+                class="mark-piece"
+              />
+              <path
+                d="M623.4,375c-.2,1.2-3.9.8-4.7.7-1.2-.1-2.4,0-3.5-.8l-75.9-44-75.9,44-7.5.8,12.4-8.2c16.6-9,32.9-18.6,49.4-27.9s12.5-8.4,17.2-10.2c7.7-3,10,1.2,16,4.5,23.2,12.5,46.5,26.1,69.2,39.8,1,.6,2.2,1.1,3.4,1.3Z"
+                class="mark-piece"
+              />
+              <path
+                d="M620.5,706.4l-9.7,6.5c-20.2,10.8-39.8,23.1-59.9,33.9-6,3.2-8.3,7.5-16,4.5-2.6-1-4.5-3.3-6.5-4.4-3.7-2-7.1-3.9-10.7-5.9-20-11.2-39.9-22.6-59.6-34.3h7.2s74,43,74,43l74-42.9,7.2-.4Z"
+                class="mark-piece"
+              />
+            </g>
+          </svg>
+        </div>
+
+        <div
+          id="textBlock"
+          class="flex flex-col items-center md:items-start overflow-hidden opacity-0"
+        >
+          <div
+            class="relative overflow-hidden w-full flex justify-center md:justify-start"
+          >
+            <h1
+              id="hexa"
+              class="font-agale text-white leading-[0.8] text-[clamp(4.5rem,10vw,8.5rem)] translate-y-full px-10 md:px-14 text-center md:text-left"
+            >
+              HEXA
+            </h1>
+          </div>
+          <p
+            id="dijital"
+            class="font-agale brand-dijital w-full text-[#00ffd1] tracking-[0.7em] opacity-0 -translate-x-12 px-10 md:px-14 text-[clamp(1.8rem,3.2vw,3rem)] text-center md:text-left ml-[0.7em] md:ml-0"
+          >
+            Dijital
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="main-content" class="hidden opacity-0 min-h-screen relative">
+      <nav
+        class="fixed top-0 w-full z-40 bg-[#030712]/70 backdrop-blur-md border-b border-white/10"
+      >
+        <div
+          class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
+        >
+          <div class="flex items-center gap-3 cursor-pointer group">
+            <svg
+              viewBox="340 320 400 440"
+              class="w-20 h-20 transition-transform group-hover:scale-110"
+            >
+              <g class="fill-white">
+                <path
+                  d="M425.5,432.1l45.6,108.6-45.6,108.7-37.2-21.7-.3-173.6c.3-1.9,2.5-2.8,4.1-3.8,7.5-4.9,22.4-14,30.3-17.4s2-1,3.1-.8Z"
+                />
+                <polygon
+                  points="690.4 452.4 690.6 628 655.5 647.9 610.7 542.5 610.4 540.1 655.5 433.4 690.4 452.4"
+                />
+                <path
+                  d="M541.8,534.6c-2.5,2.1-4-5.7-4.7-7.2-18.6-42.7-36-85.9-53.8-128.9l56-32.8,58.2,34.2-55.6,134.6Z"
+                />
+                <polygon
+                  points="483.4 683.2 540.7 546.9 597.3 681.4 540 715.1 483.4 683.2"
+                />
+                <path
+                  d="M412.5,401.1l.7,2.4-54.6,32.7-.2,207.1,1.2,2.4,52.7,30.4c1.8,1.2.7,2.7.3,4.4-.6.5-12.2-7.3-13.8-8.2-12.4-7.1-24.8-14.1-37.1-21.4-2.6-1.5-4.7-.7-5.8-5l-.2-210.3c.9-4.5,3-3.8,5.5-5.3,16.2-9.6,32.5-18.8,48.5-28.8l2.8-.3Z"
+                />
+                <path
+                  d="M668.2,679l-.6-3.5,52.5-29.8v-210.2c.1,0-52.2-30.8-52.2-30.8l.7-2.9c5.5,3.3,11.3,5.9,16.9,9.1,9.6,5.5,19.1,11.7,28.7,17.5,2.6,1.6,8.2,2.7,8.9,6.3l-.4,212.6c-1.9,3.1-5.7,3.5-8.5,5.2-11.2,6.8-22.4,13.8-33.8,20.4-3.9,2.2-8.3,4-12.2,6.2Z"
+                />
+                <path
+                  d="M623.4,375c-.2,1.2-3.9.8-4.7.7-1.2-.1-2.4,0-3.5-.8l-75.9-44-75.9,44-7.5.8,12.4-8.2c16.6-9,32.9-18.6,49.4-27.9s12.5-8.4,17.2-10.2c7.7-3,10,1.2,16,4.5,23.2,12.5,46.5,26.1,69.2,39.8,1,.6,2.2,1.1,3.4,1.3Z"
+                />
+                <path
+                  d="M620.5,706.4l-9.7,6.5c-20.2,10.8-39.8,23.1-59.9,33.9-6,3.2-8.3,7.5-16,4.5-2.6-1-4.5-3.3-6.5-4.4-3.7-2-7.1-3.9-10.7-5.9-20-11.2-39.9-22.6-59.6-34.3h7.2s74,43,74,43l74-42.9,7.2-.4Z"
+                />
+              </g>
+            </svg>
+            <div class="flex w-20 flex-col leading-tight text-center">
+              <span
+                class="font-agale font-normal text-2xl md:text-3xl text-white tracking-widest"
+                >HEXA</span
+              >
+              <span
+                class="font-agale font-normal text-lg md:text-2xl text-[#00ffd1] tracking-widest"
+                >Dijital</span
+              >
+            </div>
+          </div>
+
+          <ul
+            class="hidden md:flex gap-10 text-sm font-medium tracking-wide text-gray-300"
+          >
+            <li
+              class="hover:text-white cursor-pointer transition-colors relative group"
+            >
+              Hizmetler<span
+                class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#00ffd1] transition-all group-hover:w-full"
+              ></span>
+            </li>
+            <li
+              class="hover:text-white cursor-pointer transition-colors relative group"
+            >
+              Projeler<span
+                class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#00ffd1] transition-all group-hover:w-full"
+              ></span>
+            </li>
+            <li
+              class="hover:text-white cursor-pointer transition-colors relative group"
+            >
+              Hakkımızda<span
+                class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#00ffd1] transition-all group-hover:w-full"
+              ></span>
+            </li>
+          </ul>
+
+          <button
+            class="border border-[#00ffd1] text-[#00ffd1] hover:bg-[#00ffd1] hover:text-black transition-all px-5 py-2 md:px-6 md:py-2.5 rounded-sm font-semibold text-xs md:text-sm"
+          >
+            İletişime Geç
+          </button>
+        </div>
+      </nav>
+
+      <main
+        class="max-w-7xl mx-auto px-6 pt-48 pb-24 min-h-[90vh] flex flex-col justify-center"
+      >
+        <div class="max-w-4xl relative z-10">
+          <div class="hero-anim opacity-0 translate-y-10">
+            <span
+              class="text-[#00ffd1] font-semibold tracking-widest uppercase text-sm mb-4 block"
+              >Dijital Dönüşüm</span
+            >
+          </div>
+
+          <h2
+            class="hero-anim opacity-0 translate-y-10 text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.1] tracking-tight"
+          >
+            Geleceğin <br />
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500"
+              >Dijital</span
+            >
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-[#00ffd1] to-cyan-400"
+              >Ekosistemi.</span
+            >
+          </h2>
+
+          <p
+            class="hero-anim opacity-0 translate-y-10 text-gray-400 text-lg md:text-xl max-w-2xl leading-relaxed mb-12 font-light"
+          >
+            Sıradanlığı reddediyoruz. Yenilikçi teknolojiler ve kusursuz tasarım
+            anlayışımızla markanızı dijital dünyanın zirvesine taşıyoruz.
+          </p>
+
+          <div
+            class="hero-anim opacity-0 translate-y-10 flex flex-col sm:flex-row gap-6"
+          >
+            <button
+              class="bg-[#00ffd1] text-black font-bold px-8 py-4 rounded-sm hover:bg-cyan-400 transition-all glow-mint flex items-center justify-center gap-2"
+            >
+              Projeleri Keşfet
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                />
+              </svg>
+            </button>
+            <button
+              class="text-white font-medium px-8 py-4 border border-white/20 hover:border-white/60 hover:bg-white/5 transition-all rounded-sm flex items-center justify-center"
+            >
+              Hizmetlerimiz
+            </button>
+          </div>
+        </div>
+      </main>
     </div>
 
     <script>
-      gsap.to(".blob", {
-        x: "random(-30, 30)",
-        y: "random(-30, 30)",
-        duration: 8,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      });
+      const DEV_MODE = true;
+
+      if (!DEV_MODE) {
+        gsap.to(".blob", {
+          x: "random(-30, 30)",
+          y: "random(-30, 30)",
+          duration: 8,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      }
 
       const mm = gsap.matchMedia();
-
       mm.add(
-        {
-          isDesktop: "(min-width: 768px)",
-          isMobile: "(max-width: 767px)",
-        },
+        { isDesktop: "(min-width: 768px)", isMobile: "(max-width: 767px)" },
         (context) => {
           let { isDesktop } = context.conditions;
+          if (DEV_MODE) {
+            document.getElementById("splash-screen").style.display = "none";
+            const mainContent = document.getElementById("main-content");
+            mainContent.classList.remove("hidden");
+            gsap.set(mainContent, { opacity: 1 });
+            gsap.set(".hero-anim", { y: 0, opacity: 1 });
+            return;
+          }
 
-          const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+          const tl = gsap.timeline({
+            defaults: { ease: "expo.out" },
+            onComplete: () => {
+              gsap.to("#splash-screen", {
+                opacity: 0,
+                duration: 1.2,
+                ease: "power2.inOut",
+                onComplete: () => {
+                  document.getElementById("splash-screen").style.display =
+                    "none";
+                  const mainContent = document.getElementById("main-content");
+                  mainContent.classList.remove("hidden");
+                  gsap.to(mainContent, {
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: "power1.inOut",
+                  });
+                  gsap.to(".hero-anim", {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.2,
+                    stagger: 0.15,
+                    ease: "power3.out",
+                    delay: 0.2,
+                  });
+                },
+              });
+            },
+          });
 
           gsap.set(".mark-piece", {
             opacity: 0,
@@ -144,7 +375,6 @@
             filter: "blur(15px)",
             transformOrigin: "center",
           });
-
           if (isDesktop) {
             gsap.set("#textBlock", { width: 0, height: "auto", opacity: 0 });
           } else {
@@ -163,7 +393,6 @@
             },
             0.2,
           );
-
           if (isDesktop) {
             tl.to(
               "#textBlock",
@@ -177,7 +406,6 @@
               1.0,
             );
           }
-
           tl.to("#hexa", { y: 0, duration: 1.2 }, 1.2);
           tl.to(
             "#dijital",
