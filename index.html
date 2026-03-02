@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hexa Dijital | 3s Premium</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,69 +11,19 @@
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
-    <style>
-      /* Sadece Logo için Özel Font */
-      @font-face {
-        font-family: "Agale";
-        src: url("assets/fonts/Agale.woff2") format("opentype");
-        font-display: swap;
-      }
-      .font-agale {
-        font-family: "Agale", sans-serif;
-      }
-
-      /* Tüm site için genel font */
-      body {
-        font-family: "Space Grotesk", sans-serif;
-        background-color: #030712;
-        color: #e2e8f0;
-      }
-
-      .brand-dijital {
-        line-height: 1.4;
-        padding-bottom: 0.5rem;
-        display: inline-block;
-      }
-
-      /* Neon Mint parlama efekti */
-      .glow-mint {
-        box-shadow: 0 0 20px rgba(0, 255, 209, 0.25);
-      }
-
-      /* CSS Değişkeni olarak ana rengimiz */
-      :root {
-        --neon-mint: #00ffd1;
-      }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css" />
   </head>
 
-  <body class="overscroll-none overflow-x-hidden">
-    <div
-      id="splash-screen"
-      class="fixed inset-0 z-50 w-full h-[100dvh] overflow-hidden flex items-center justify-center bg-[#030712]"
-    >
-      <div
-        id="aurora"
-        class="absolute inset-0 z-0 blur-[130px] opacity-0 pointer-events-none"
-      >
-        <div
-          class="blob absolute rounded-full bg-[#00ffd1]/20 w-[60vw] h-[60vw] -top-1/4 -left-1/4 mix-blend-screen"
-        ></div>
-        <div
-          class="blob absolute rounded-full bg-purple-500/15 w-[70vw] h-[70vw] -bottom-1/4 -right-1/4 mix-blend-screen"
-        ></div>
+  <body>
+    <div id="splash-screen" class="splash-screen">
+      <div id="aurora" class="splash-aurora">
+        <div class="splash-blob blob-top-left"></div>
+        <div class="splash-blob blob-bottom-right"></div>
       </div>
 
-      <div
-        id="masterWrapper"
-        class="relative z-10 flex flex-col md:flex-row items-center justify-center"
-      >
-        <div id="markGroup" class="flex-shrink-0 mb-6 md:mb-0">
-          <svg
-            viewBox="340 320 400 440"
-            class="w-28 h-28 md:w-52 md:h-52 drop-shadow-[0_0_20px_rgba(0,255,209,0.3)]"
-          >
+      <div id="masterWrapper" class="splash-wrapper">
+        <div id="markGroup" class="splash-logo-container">
+          <svg viewBox="340 320 400 440" class="splash-logo">
             <g class="fill-white">
               <path
                 id="borderTrace"
@@ -121,43 +69,20 @@
             </g>
           </svg>
         </div>
-
-        <div
-          id="textBlock"
-          class="flex flex-col items-center md:items-start overflow-hidden opacity-0"
-        >
-          <div
-            class="relative overflow-hidden w-full flex justify-center md:justify-start"
-          >
-            <h1
-              id="hexa"
-              class="font-agale text-white leading-[0.8] text-[clamp(4.5rem,10vw,8.5rem)] translate-y-full px-10 md:px-14 text-center md:text-left"
-            >
-              HEXA
-            </h1>
+        <div id="textBlock" class="splash-text-container opacity-0">
+          <div class="splash-title-wrapper">
+            <h1 id="hexa" class="splash-title">HEXA</h1>
           </div>
-          <p
-            id="dijital"
-            class="font-agale brand-dijital w-full text-[#00ffd1] tracking-[0.7em] opacity-0 -translate-x-12 px-10 md:px-14 text-[clamp(1.8rem,3.2vw,3rem)] text-center md:text-left ml-[0.7em] md:ml-0"
-          >
-            Dijital
-          </p>
+          <p id="dijital" class="splash-subtitle opacity-0">Dijital</p>
         </div>
       </div>
     </div>
 
-    <div id="main-content" class="hidden opacity-0 min-h-screen relative">
-      <nav
-        class="fixed top-0 w-full z-40 bg-[#030712]/70 backdrop-blur-md border-b border-white/10"
-      >
-        <div
-          class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
-        >
-          <div class="flex items-center gap-3 cursor-pointer group">
-            <svg
-              viewBox="340 320 400 440"
-              class="w-20 h-20 transition-transform group-hover:scale-110"
-            >
+    <main id="main-content" class="main-layout hidden opacity-0">
+      <nav class="navbar">
+        <div class="container-fluid nav-inner">
+          <div class="nav-brand group">
+            <svg viewBox="340 320 400 440" class="nav-logo">
               <g class="fill-white">
                 <path
                   d="M425.5,432.1l45.6,108.6-45.6,108.7-37.2-21.7-.3-173.6c.3-1.9,2.5-2.8,4.1-3.8,7.5-4.9,22.4-14,30.3-17.4s2-1,3.1-.8Z"
@@ -185,223 +110,353 @@
                 />
               </g>
             </svg>
-            <div class="flex w-20 flex-col leading-tight text-center">
-              <span
-                class="font-agale font-normal text-2xl md:text-3xl text-white tracking-widest"
-                >HEXA</span
-              >
-              <span
-                class="font-agale font-normal text-lg md:text-2xl text-[#00ffd1] tracking-widest"
-                >Dijital</span
-              >
+            <div class="nav-brand-text">
+              <span class="text-hexa">HEXA</span>
+              <span class="text-dijital">Dijital</span>
             </div>
           </div>
 
-          <ul
-            class="hidden md:flex gap-10 text-sm font-medium tracking-wide text-gray-300"
-          >
-            <li
-              class="hover:text-white cursor-pointer transition-colors relative group"
-            >
-              Hizmetler<span
-                class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#00ffd1] transition-all group-hover:w-full"
-              ></span>
+          <ul class="nav-menu">
+            <li class="nav-item group">
+              Hizmetler<span class="nav-indicator"></span>
             </li>
-            <li
-              class="hover:text-white cursor-pointer transition-colors relative group"
-            >
-              Projeler<span
-                class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#00ffd1] transition-all group-hover:w-full"
-              ></span>
+            <li class="nav-item group">
+              Projeler<span class="nav-indicator"></span>
             </li>
-            <li
-              class="hover:text-white cursor-pointer transition-colors relative group"
-            >
-              Hakkımızda<span
-                class="absolute -bottom-1 left-0 w-0 h-[2px] bg-[#00ffd1] transition-all group-hover:w-full"
-              ></span>
+            <li class="nav-item group">
+              Hakkımızda<span class="nav-indicator"></span>
             </li>
           </ul>
 
-          <button
-            class="border border-[#00ffd1] text-[#00ffd1] hover:bg-[#00ffd1] hover:text-black transition-all px-5 py-2 md:px-6 md:py-2.5 rounded-sm font-semibold text-xs md:text-sm"
-          >
-            İletişime Geç
-          </button>
+          <button class="btn-outline">İletişime Geç</button>
         </div>
       </nav>
 
-      <main
-        class="max-w-7xl mx-auto px-6 pt-48 pb-24 min-h-[90vh] flex flex-col justify-center"
-      >
-        <div class="max-w-4xl relative z-10">
+      <section class="container-fluid hero-grid">
+        <div class="hero-content">
           <div class="hero-anim opacity-0 translate-y-10">
-            <span
-              class="text-[#00ffd1] font-semibold tracking-widest uppercase text-sm mb-4 block"
-              >Dijital Dönüşüm</span
-            >
+            <span class="hero-tagline">Dijital Dönüşüm</span>
           </div>
 
-          <h2
-            class="hero-anim opacity-0 translate-y-10 text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-[1.1] tracking-tight"
-          >
-            Geleceğin <br />
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500"
-              >Dijital</span
-            >
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-[#00ffd1] to-cyan-400"
-              >Ekosistemi.</span
-            >
+          <h2 class="hero-title hero-anim opacity-0 translate-y-10">
+            Dijital Hikayenizin
+            <span class="text-gradient-white">Yeni</span>
+            <span class="text-gradient-cyan">Sayfası.</span>
           </h2>
 
-          <p
-            class="hero-anim opacity-0 translate-y-10 text-gray-400 text-lg md:text-xl max-w-2xl leading-relaxed mb-12 font-light"
-          >
-            Sıradanlığı reddediyoruz. Yenilikçi teknolojiler ve kusursuz tasarım
-            anlayışımızla markanızı dijital dünyanın zirvesine taşıyoruz.
+          <p class="hero-desc hero-anim opacity-0 translate-y-10">
+            Markanızı sadece büyütmüyor, dijital dünyadaki karmaşayı sizin için
+            basitleştiriyoruz. Sizi dinleyen, anlayan ve tıpkı sizin kadar
+            heyecan duyan butik bir ekiple tanışmaya hazır mısınız? ✨
           </p>
 
-          <div
-            class="hero-anim opacity-0 translate-y-10 flex flex-col sm:flex-row gap-6"
-          >
-            <button
-              class="bg-[#00ffd1] text-black font-bold px-8 py-4 rounded-sm hover:bg-cyan-400 transition-all glow-mint flex items-center justify-center gap-2"
-            >
-              Projeleri Keşfet
+          <div class="hero-actions hero-anim opacity-0 translate-y-10">
+            <button class="btn-primary glow-mint">Bir Kahve İçelim? ☕</button>
+            <button class="btn-secondary">Neler Yaptık? 👀</button>
+          </div>
+        </div>
+        <div class="hero-right-container">
+          <div class="animate-float honeycomb-scaler wrapper-3d">
+            <div class="honeycomb-glow blur-80"></div>
+
+            <div id="interactive-honeycomb" class="interactive-honeycomb">
+              <div class="honeycomb-center">
+                <div
+                  class="hex-node hex-layer pointer-none opacity-0"
+                  style="transform: translateZ(15px)"
+                >
+                  <svg viewBox="-200 -200 400 400" class="hex-data-svg">
+                    <g stroke="rgba(255,255,255,0.08)" stroke-width="1.5">
+                      <line x1="0" y1="0" x2="85" y2="48" />
+                      <line x1="0" y1="0" x2="-85" y2="-48" />
+                      <line x1="0" y1="0" x2="0" y2="-95" />
+                      <line x1="0" y1="0" x2="0" y2="95" />
+                      <line x1="85" y1="48" x2="140" y2="-25" />
+                      <line x1="-85" y1="-48" x2="-140" y2="35" />
+                    </g>
+                    <g
+                      stroke="#00ffd1"
+                      stroke-width="2"
+                      class="animate-data"
+                      stroke-dasharray="6 18"
+                    >
+                      <line x1="0" y1="0" x2="85" y2="48" />
+                      <line x1="0" y1="0" x2="-85" y2="-48" />
+                      <line x1="0" y1="0" x2="0" y2="-95" />
+                      <line x1="0" y1="0" x2="0" y2="95" />
+                      <line x1="85" y1="48" x2="140" y2="-25" />
+                      <line x1="-85" y1="-48" x2="-140" y2="35" />
+                    </g>
+                  </svg>
+                </div>
+
+                <div
+                  class="hex-node hex-layer hex-container opacity-0 cursor-pointer"
+                  style="transform: translateZ(80px)"
+                >
+                  <svg viewBox="0 0 100 115" class="hex-svg glass-hex-border">
+                    <polygon
+                      points="50,1 99,27 99,88 50,114 1,88 1,27"
+                      fill="none"
+                      stroke="#00ffd1"
+                      stroke-width="2"
+                      stroke-opacity="0.8"
+                    />
+                  </svg>
+                  <div class="hex-inner hex-shape glass-hex-body"></div>
+                  <div class="hex-core translate-z-30"></div>
+                </div>
+
+                <div
+                  class="hex-node hex-layer hex-container opacity-0 cursor-pointer"
+                  style="transform: translate(85px, 48px) translateZ(40px)"
+                >
+                  <svg
+                    viewBox="0 0 100 115"
+                    class="hex-svg glass-hex-border shadow-md"
+                  >
+                    <polygon
+                      points="50,1 99,27 99,88 50,114 1,88 1,27"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-opacity="0.5"
+                    />
+                  </svg>
+                  <div
+                    class="hex-inner hex-shape glass-hex-body"
+                    style="
+                      background: linear-gradient(
+                        135deg,
+                        rgba(255, 255, 255, 0.1) 0%,
+                        rgba(0, 0, 0, 0.1) 100%
+                      );
+                    "
+                  ></div>
+                </div>
+
+                <div
+                  class="hex-node hex-layer hex-container opacity-0 cursor-pointer"
+                  style="transform: translate(-85px, -48px) translateZ(20px)"
+                >
+                  <svg
+                    viewBox="0 0 100 115"
+                    class="hex-svg glass-hex-border shadow-md"
+                  >
+                    <polygon
+                      points="50,1 99,27 99,88 50,114 1,88 1,27"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="1.5"
+                      stroke-opacity="0.4"
+                    />
+                  </svg>
+                  <div
+                    class="hex-inner hex-shape glass-hex-body"
+                    style="
+                      background: linear-gradient(
+                        135deg,
+                        rgba(255, 255, 255, 0.1) 0%,
+                        rgba(0, 0, 0, 0.1) 100%
+                      );
+                    "
+                  ></div>
+                </div>
+
+                <div
+                  class="hex-node hex-layer hex-container opacity-0 cursor-pointer"
+                  style="transform: translate(0px, -95px) translateZ(0px)"
+                >
+                  <svg viewBox="0 0 100 115" class="hex-svg glass-hex-border">
+                    <polygon
+                      points="50,1 99,27 99,88 50,114 1,88 1,27"
+                      fill="none"
+                      stroke="#00ffd1"
+                      stroke-width="1"
+                      stroke-opacity="0.3"
+                    />
+                  </svg>
+                  <div
+                    class="hex-inner hex-shape glass-hex-body opacity-70"
+                  ></div>
+                </div>
+
+                <div
+                  class="hex-node hex-layer hex-container opacity-0 cursor-pointer"
+                  style="transform: translate(0px, 95px) translateZ(10px)"
+                >
+                  <svg viewBox="0 0 100 115" class="hex-svg glass-hex-border">
+                    <polygon
+                      points="50,1 99,27 99,88 50,114 1,88 1,27"
+                      fill="none"
+                      stroke="#00ffd1"
+                      stroke-width="1"
+                      stroke-opacity="0.3"
+                    />
+                  </svg>
+                  <div
+                    class="hex-inner hex-shape glass-hex-body opacity-80"
+                  ></div>
+                </div>
+
+                <div
+                  class="hex-node hex-layer hex-container opacity-0 cursor-pointer"
+                  style="
+                    transform: translate(140px, -25px) translateZ(-40px)
+                      scale(0.9);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 100 115"
+                    class="hex-svg glass-hex-border"
+                    style="filter: none"
+                  >
+                    <polygon
+                      points="50,1 99,27 99,88 50,114 1,88 1,27"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="0.5"
+                      stroke-opacity="0.2"
+                    />
+                  </svg>
+                  <div
+                    class="hex-inner hex-shape glass-hex-body"
+                    style="
+                      opacity: 0.4;
+                      background: transparent;
+                      box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.2);
+                    "
+                  ></div>
+                </div>
+
+                <div
+                  class="hex-node hex-layer hex-container opacity-0 cursor-pointer"
+                  style="
+                    transform: translate(-140px, 35px) translateZ(-60px)
+                      scale(0.8);
+                  "
+                >
+                  <svg
+                    viewBox="0 0 100 115"
+                    class="hex-svg glass-hex-border"
+                    style="filter: none"
+                  >
+                    <polygon
+                      points="50,1 99,27 99,88 50,114 1,88 1,27"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="0.5"
+                      stroke-opacity="0.2"
+                    />
+                  </svg>
+                  <div
+                    class="hex-inner hex-shape glass-hex-body"
+                    style="
+                      opacity: 0.3;
+                      background: transparent;
+                      box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.2);
+                    "
+                  ></div>
+                </div>
+
+                <div
+                  class="hex-node dot-white opacity-0"
+                  style="transform: translate(110px, -60px) translateZ(100px)"
+                ></div>
+                <div
+                  class="hex-node dot-cyan opacity-0"
+                  style="transform: translate(-100px, 70px) translateZ(50px)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="hizmetler" class="section-services container-fluid">
+        <div class="section-header opacity-0 translate-y-10">
+          <span class="section-subtitle">Sürecimiz Nasıl İşliyor? 🤝</span>
+          <h2 class="section-title">
+            Fikirlerinizi
+            <span class="text-gradient-cyan">Hayata Geçiriyoruz.</span>
+          </h2>
+        </div>
+
+        <div class="services-grid">
+          <div class="service-card opacity-0 translate-y-10">
+            <div class="service-icon">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="2"
+                stroke-width="1.5"
                 stroke="currentColor"
-                class="w-5 h-5"
               >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z"
                 />
               </svg>
-            </button>
-            <button
-              class="text-white font-medium px-8 py-4 border border-white/20 hover:border-white/60 hover:bg-white/5 transition-all rounded-sm flex items-center justify-center"
-            >
-              Hizmetlerimiz
-            </button>
+            </div>
+            <h3 class="service-title">Önce Sizi Dinliyoruz ✨</h3>
+            <p class="service-desc">
+              Her şey bir kahve ve samimi bir sohbetle başlıyor. Hayallerinizi,
+              hedeflerinizi ve markanızın neye ihtiyaç duyduğunu gerçekten
+              anlamak için kulak veriyoruz.
+            </p>
+          </div>
+
+          <div class="service-card opacity-0 translate-y-10">
+            <div class="service-icon">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
+                />
+              </svg>
+            </div>
+            <h3 class="service-title">Size Özel Kodluyoruz 💻</h3>
+            <p class="service-desc">
+              Sıradan kalıplardan uzak, tamamen size özel tasarımlar ve güçlü
+              yazılım altyapıları oluşturuyoruz. Teknolojiyi markanızın
+              karakteriyle harmanlıyoruz.
+            </p>
+          </div>
+
+          <div class="service-card opacity-0 translate-y-10">
+            <div class="service-icon">
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 7.5h.008v.008H16.5V7.5Z"
+                />
+              </svg>
+            </div>
+            <h3 class="service-title">Dünyaya Duyuruyoruz 🚀</h3>
+            <p class="service-desc">
+              Projeniz hazır olduğunda onu sadece yayına almıyor, medya ve
+              stratejik adımlarla doğru hedef kitleye ulaşmasını sağlıyoruz.
+              Başarınızı birlikte kutluyoruz!
+            </p>
           </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
 
-    <script>
-      const DEV_MODE = false;
-
-      if (!DEV_MODE) {
-        gsap.to(".blob", {
-          x: "random(-30, 30)",
-          y: "random(-30, 30)",
-          duration: 8,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-        });
-      }
-
-      const mm = gsap.matchMedia();
-      mm.add(
-        { isDesktop: "(min-width: 768px)", isMobile: "(max-width: 767px)" },
-        (context) => {
-          let { isDesktop } = context.conditions;
-          if (DEV_MODE) {
-            document.getElementById("splash-screen").style.display = "none";
-            const mainContent = document.getElementById("main-content");
-            mainContent.classList.remove("hidden");
-            gsap.set(mainContent, { opacity: 1 });
-            gsap.set(".hero-anim", { y: 0, opacity: 1 });
-            return;
-          }
-
-          const tl = gsap.timeline({
-            defaults: { ease: "expo.out" },
-            onComplete: () => {
-              gsap.to("#splash-screen", {
-                opacity: 0,
-                duration: 1.2,
-                ease: "power2.inOut",
-                onComplete: () => {
-                  document.getElementById("splash-screen").style.display =
-                    "none";
-                  const mainContent = document.getElementById("main-content");
-                  mainContent.classList.remove("hidden");
-                  gsap.to(mainContent, {
-                    opacity: 1,
-                    duration: 0.5,
-                    ease: "power1.inOut",
-                  });
-                  gsap.to(".hero-anim", {
-                    y: 0,
-                    opacity: 1,
-                    duration: 1.2,
-                    stagger: 0.15,
-                    ease: "power3.out",
-                    delay: 0.2,
-                  });
-                },
-              });
-            },
-          });
-
-          gsap.set(".mark-piece", {
-            opacity: 0,
-            scale: 0.6,
-            filter: "blur(15px)",
-            transformOrigin: "center",
-          });
-          if (isDesktop) {
-            gsap.set("#textBlock", { width: 0, height: "auto", opacity: 0 });
-          } else {
-            gsap.set("#textBlock", { width: "auto", height: 0, opacity: 0 });
-          }
-
-          tl.to("#aurora", { opacity: 0.8, duration: 1.2 }, 0);
-          tl.to(
-            ".mark-piece",
-            {
-              opacity: 1,
-              scale: 1,
-              filter: "blur(0px)",
-              duration: 1.2,
-              stagger: { amount: 0.5, from: "center" },
-            },
-            0.2,
-          );
-          if (isDesktop) {
-            tl.to(
-              "#textBlock",
-              { width: "auto", opacity: 1, duration: 1.4, ease: "expo.inOut" },
-              1.0,
-            );
-          } else {
-            tl.to(
-              "#textBlock",
-              { height: "auto", opacity: 1, duration: 1.4, ease: "expo.inOut" },
-              1.0,
-            );
-          }
-          tl.to("#hexa", { y: 0, duration: 1.2 }, 1.2);
-          tl.to(
-            "#dijital",
-            { opacity: 1, x: 0, duration: 1.0, ease: "power2.out" },
-            1.6,
-          );
-
-          return () => {
-            tl.kill();
-          };
-        },
-      );
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="assets/js/script.js"></script>
   </body>
 </html>
