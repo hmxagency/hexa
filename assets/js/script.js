@@ -5,7 +5,10 @@
 // GSAP Plugin Kaydı
 gsap.registerPlugin(ScrollTrigger);
 
-const DEV_MODE = false; // Geliştirme aşamasındaysan true kalabilir, canlıda false yaparsın
+const DEV_MODE = false;
+
+// --- DÜZELTME: Sayfa yüklenmeden elemanları gizle ---
+gsap.set(".services-header-wrapper > *, .hexa-card", { y: 60, opacity: 0 });
 
 // --------------------------------------------------------
 // 1. SPLASH BLOB ANİMASYONU (Arka Plan Kayan Renkler)
@@ -25,32 +28,109 @@ if (!DEV_MODE) {
 // --------------------------------------------------------
 // 2. KAYDIRMA (SCROLL) ANİMASYONLARI (Ana Fonksiyon)
 // --------------------------------------------------------
+
 function initScrollAnimations() {
   const isDeviceMobile = window.innerWidth <= 992;
 
-  // --- Sürecimiz Başlığı ---
-  gsap.fromTo(
-    ".services-header-wrapper > *",
-    { y: 40, opacity: 0 },
-    {
-      scrollTrigger: { trigger: ".section-how-we-work", start: "top 80%" },
+  // --- Tüm Başlıklar ---
+  gsap.utils.toArray(".services-header-wrapper").forEach((wrapper) => {
+    gsap.to(wrapper.children, {
+      scrollTrigger: {
+        trigger: wrapper,
+        start: "top 85%",
+      },
       y: 0,
       opacity: 1,
       duration: 0.8,
       stagger: 0.2,
       ease: "power3.out",
       clearProps: "all",
+    });
+  });
+
+  // --- Sürecimiz Kartları (Bento Grid) ---
+  gsap.to(".hexa-card", {
+    scrollTrigger: {
+      trigger: ".hexa-bento-grid",
+      start: "top 85%",
+    },
+    y: 0,
+    opacity: 1,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: "back.out(1.2)",
+    clearProps: "all", // Kartın kendi CSS'i devreye girsin diye temizliyoruz
+    onComplete: () => {
+      document.querySelectorAll(".hexa-card").forEach((card) => {
+        card.classList.add("hover-ready");
+      });
+    },
+  });
+
+  // --- Akordeon Galeri (Hizmetlerimiz) ---
+  gsap.fromTo(
+    ".acc-panel",
+    { x: -30, opacity: 0 },
+    {
+      scrollTrigger: { trigger: ".accordion-gallery", start: "top 85%" },
+      x: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      clearProps: "all",
     },
   );
 
-  // --- Sürecimiz Kartları (Bento Grid) ---
+  // --- ZIGZAG HİZMET DETAYLARI ANİMASYONU ---
+  const zigzagRows = document.querySelectorAll(".zigzag-row");
+  zigzagRows.forEach((row) => {
+    const visual = row.querySelector(".z-visual");
+    const contents = row.querySelectorAll(".z-content > *");
+    const isReverse = row.classList.contains("reverse");
+
+    if (visual) {
+      gsap.fromTo(
+        visual,
+        { x: isReverse ? 80 : -80, opacity: 0, scale: 0.95 },
+        {
+          scrollTrigger: { trigger: row, start: "top 80%" },
+          x: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          clearProps: "all",
+        },
+      );
+    }
+
+    if (contents.length > 0) {
+      gsap.fromTo(
+        contents,
+        { y: 50, opacity: 0 },
+        {
+          scrollTrigger: { trigger: row, start: "top 80%" },
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+          clearProps: "y,opacity", // SADECE BUNLARI TEMİZLE
+        },
+      );
+    }
+  });
+
+  // --- Projeler (Stacked Cards) ---
   gsap.fromTo(
-    ".hexa-card",
-    { y: 60, opacity: 0 },
+    ".stacked-card",
+    { y: 60, opacity: 0, scale: 0.95 },
     {
-      scrollTrigger: { trigger: ".hexa-bento-grid", start: "top 85%" },
+      scrollTrigger: { trigger: ".stacked-cards-wrapper", start: "top 85%" },
       y: 0,
       opacity: 1,
+      scale: 1,
       duration: 0.8,
       stagger: 0.2,
       ease: "back.out(1.2)",
@@ -73,59 +153,6 @@ function initScrollAnimations() {
     },
   );
 
-  // --- Kutusuz Devasa Footer İçi ---
-  gsap.fromTo(
-    ".footer-cta-wrapper > *",
-    { y: 50, opacity: 0 },
-    {
-      scrollTrigger: { trigger: ".fluid-footer", start: "top 85%" },
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      stagger: 0.2,
-      ease: "power3.out",
-      clearProps: "all",
-    },
-  );
-
-  // --- Sinematik Görsel (Parallax) ---
-  if (!isDeviceMobile) {
-    gsap.fromTo(
-      ".cinematic-image",
-      { y: "-15%" },
-      {
-        scrollTrigger: {
-          trigger: ".cinematic-image-wrapper",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-        y: "15%",
-        ease: "none",
-        force3D: true,
-      },
-    );
-  }
-
-  // --- Sinematik Görsel Çerçeve Belirmesi ---
-  gsap.fromTo(
-    ".cinematic-image-wrapper",
-    {
-      y: isDeviceMobile ? 50 : 100,
-      opacity: 0,
-      scale: isDeviceMobile ? 1 : 0.95,
-    },
-    {
-      scrollTrigger: { trigger: ".section-cinematic-vision", start: "top 80%" },
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      duration: 1.2,
-      ease: "expo.out",
-      clearProps: "all",
-    },
-  );
-
   // --- Ekip Kartları (Grid Reveal) ---
   gsap.fromTo(
     ".team-card",
@@ -140,176 +167,296 @@ function initScrollAnimations() {
       clearProps: "all",
     },
   );
-  // --- ZIGZAG HİZMET DETAYLARI ANİMASYONU ---
-  const zigzagRows = document.querySelectorAll(".zigzag-row");
 
-  zigzagRows.forEach((row) => {
-    const visual = row.querySelector(".z-visual");
-    const contents = row.querySelectorAll(".z-content > *");
-    const isReverse = row.classList.contains("reverse");
-
-    // Görsel sağdan veya soldan (reverse durumuna göre) süzülerek gelir
-    gsap.fromTo(
-      visual,
-      { x: isReverse ? 80 : -80, opacity: 0, scale: 0.95 },
-      {
-        scrollTrigger: { trigger: row, start: "top 80%" },
-        x: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 1.2,
-        ease: "power3.out",
-        clearProps: "all",
+  // --- Müşteri Yorumu (Testimonial) ---
+  gsap.fromTo(
+    ".testimonial-single > *",
+    { y: 30, opacity: 0 },
+    {
+      scrollTrigger: {
+        trigger: ".section-testimonial-fluid",
+        start: "top 85%",
       },
-    );
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power3.out",
+      clearProps: "all",
+    },
+  );
 
-    // Yazılar aşağıdan teker teker (stagger) havalı bir şekilde çıkar
+  // --- SSS Alanı ---
+  gsap.fromTo(
+    ".faq-left > *",
+    { x: -50, opacity: 0 },
+    {
+      scrollTrigger: { trigger: ".section-faq-split", start: "top 85%" },
+      x: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power3.out",
+      clearProps: "all",
+    },
+  );
+
+  gsap.fromTo(
+    ".faq-item",
+    { x: 50, opacity: 0 },
+    {
+      scrollTrigger: { trigger: ".faq-right", start: "top 85%" },
+      x: 0,
+      opacity: 1,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      clearProps: "all",
+    },
+  );
+
+  // --- Kutusuz Devasa Footer İçi ---
+  gsap.fromTo(
+    ".footer-cta-wrapper > *",
+    { y: 50, opacity: 0 },
+    {
+      scrollTrigger: { trigger: ".fluid-footer", start: "top 85%" },
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power3.out",
+      clearProps: "all",
+    },
+  );
+  gsap.fromTo(
+    ".section-tech-marquee",
+    { opacity: 0, scale: 0.95, y: 30 },
+    {
+      scrollTrigger: {
+        trigger: ".section-tech-marquee",
+        start: "top 90%",
+      },
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      duration: 1,
+      ease: "power3.out",
+      clearProps: "y,opacity,scale",
+    },
+  );
+  // =========================================================
+  // HİKAYESEL TEKNOLOJİ YIĞINI (Sol Sabit, Sağ Kayan)
+  // =========================================================
+
+  // 1. Sol Sabit Alanın Belirmesi
+  gsap.fromTo(
+    ".story-sticky-left",
+    { x: -50, opacity: 0 },
+    {
+      scrollTrigger: {
+        trigger: ".tech-story-section",
+        start: "top 80%", // Bölüm ekrana %80 girdiğinde tetiklenir
+      },
+      x: 0,
+      opacity: 1,
+      duration: 1,
+      ease: "power3.out",
+      clearProps: "all",
+    },
+  );
+
+  // 2. Sağ Taraftaki Faz Başlıklarının Belirmesi (01. BÖLÜM vb.)
+  gsap.utils
+    .toArray(".phase-block > .phase-number, .phase-block > h3")
+    .forEach((header) => {
+      gsap.fromTo(
+        header,
+        { y: 30, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: header,
+            start: "top 85%",
+          },
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          clearProps: "all",
+        },
+      );
+    });
+
+  // 3. Sağ Taraftaki Maddelerin (philo-item) Scroll ile Tek Tek Belirmesi
+  gsap.utils.toArray(".philo-item").forEach((item) => {
     gsap.fromTo(
-      contents,
+      item,
       { y: 50, opacity: 0 },
       {
-        scrollTrigger: { trigger: row, start: "top 80%" },
+        scrollTrigger: {
+          trigger: item,
+          start: "top 85%", // Her madde ekranın %85'ine ulaştığında kendi animasyonunu oynatır
+        },
         y: 0,
         opacity: 1,
         duration: 0.8,
-        stagger: 0.15,
-        ease: "power3.out",
+        ease: "back.out(1.2)", // Hafifçe yukarı zıplayıp yerine oturma efekti (Premium his verir)
         clearProps: "all",
       },
     );
   });
-  // --- GÖRSEL VİTRİN (YATAY KAYDIRMA GALERİSİ) ---
-  const galleryTrack = document.querySelector(".showcase-track");
-  if (galleryTrack) {
-    function getGalleryScroll() {
-      let trackWidth = galleryTrack.scrollWidth;
-      return -(trackWidth - window.innerWidth + window.innerWidth * 0.1);
-    }
-    gsap.to(galleryTrack, {
-      x: getGalleryScroll,
-      ease: "none",
-      force3D: true,
-      scrollTrigger: {
-        trigger: ".section-showcase-gallery",
-        start: "top center",
-        end: "bottom top",
-        scrub: 1,
-        invalidateOnRefresh: true,
-      },
-    });
-  }
-
-  // --- DEVASA TİPOGRAFİ (YATAY AKIŞ / PINNED SCROLL) ---
-  const giantTrack = document.querySelector(".giant-type-track");
-  if (giantTrack) {
-    function getScrollAmount() {
-      let trackWidth = giantTrack.scrollWidth;
-      return -(trackWidth - window.innerWidth + window.innerWidth * 0.1);
-    }
-    gsap.to(giantTrack, {
-      x: getScrollAmount,
-      ease: "none",
-      force3D: true,
-      scrollTrigger: {
-        trigger: ".section-giant-type",
-        start: "top top",
-        end: () => `+=${giantTrack.scrollWidth}`,
-        pin: true,
-        scrub: isDeviceMobile ? 0.5 : 1,
-        invalidateOnRefresh: true,
-      },
-    });
-  }
-
-  // ========================================================
-  // KENDİ OLUŞTURDUĞUMUZ SCROLLBAR (SÜRÜKLENEBİLİR & TIKLANABİLİR)
-  // ========================================================
-  const customScrollbar = document.getElementById("custom-scrollbar");
-  const customThumb = document.getElementById("custom-scroll-thumb");
-
-  if (customScrollbar && customThumb) {
-    customScrollbar.style.opacity = "1";
-    customScrollbar.style.visibility = "visible";
-
-    function updateThumbHeight() {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      if (documentHeight <= windowHeight) {
-        customScrollbar.style.display = "none";
-        return;
-      }
-      customScrollbar.style.display = "block";
-      const ratio = windowHeight / documentHeight;
-      customThumb.style.height = `${ratio * 100}vh`;
-    }
-
-    updateThumbHeight();
-    window.addEventListener("resize", updateThumbHeight);
-
-    gsap.to(customThumb, {
-      y: () => window.innerHeight - customThumb.offsetHeight,
-      ease: "none",
-      scrollTrigger: {
-        start: "top top",
-        end: "bottom bottom",
-        scrub: true,
-        invalidateOnRefresh: true,
-      },
-    });
-
-    let isDragging = false;
-    let startY = 0;
-    let startScrollTop = 0;
-
-    customThumb.addEventListener("mousedown", (e) => {
-      isDragging = true;
-      startY = e.clientY;
-      startScrollTop = window.scrollY || document.documentElement.scrollTop;
-      document.body.style.userSelect = "none";
-      customThumb.style.backgroundColor = "#fff";
-    });
-
-    window.addEventListener("mousemove", (e) => {
-      if (!isDragging) return;
-      e.preventDefault();
-      const deltaY = e.clientY - startY;
-      const trackHeight = window.innerHeight - customThumb.offsetHeight;
-      const scrollableHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const scrollRatio = scrollableHeight / trackHeight;
-
-      window.scrollTo({
-        top: startScrollTop + deltaY * scrollRatio,
-        behavior: "auto",
-      });
-    });
-
-    window.addEventListener("mouseup", () => {
-      if (isDragging) {
-        isDragging = false;
-        document.body.style.userSelect = "";
-        customThumb.style.backgroundColor = "var(--neon-mint)";
-      }
-    });
-
-    customScrollbar.addEventListener("click", (e) => {
-      if (e.target === customThumb) return;
-
-      const trackHeight = window.innerHeight - customThumb.offsetHeight;
-      const scrollableHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const clickY = e.clientY - customThumb.offsetHeight / 2;
-      const clickRatio = clickY / trackHeight;
-
-      window.scrollTo({
-        top: clickRatio * scrollableHeight,
-        behavior: "smooth",
-      });
-    });
-  }
 
   ScrollTrigger.refresh();
-} // initScrollAnimations Bitişi
+} // === initScrollAnimations FONKSİYONUNUN BİTİŞİ ===
+
+// ========================================================
+// KENDİ OLUŞTURDUĞUMUZ SCROLLBAR
+// ========================================================
+const customScrollbar = document.getElementById("custom-scrollbar");
+const customThumb = document.getElementById("custom-scroll-thumb");
+
+if (customScrollbar && customThumb) {
+  customScrollbar.style.opacity = "1";
+  customScrollbar.style.visibility = "visible";
+
+  function updateThumbHeight() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    if (documentHeight <= windowHeight) {
+      customScrollbar.style.display = "none";
+      return;
+    }
+    customScrollbar.style.display = "block";
+    const ratio = windowHeight / documentHeight;
+    customThumb.style.height = `${ratio * 100}vh`;
+  }
+
+  updateThumbHeight();
+  window.addEventListener("resize", updateThumbHeight);
+
+  gsap.to(customThumb, {
+    y: () => window.innerHeight - customThumb.offsetHeight,
+    ease: "none",
+    scrollTrigger: {
+      trigger: document.body,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: true,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  let isDragging = false;
+  let startY = 0;
+  let startScrollTop = 0;
+
+  customThumb.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    startY = e.clientY;
+    startScrollTop = window.scrollY || document.documentElement.scrollTop;
+    document.body.style.userSelect = "none";
+    customThumb.style.backgroundColor = "#fff";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const deltaY = e.clientY - startY;
+    const trackHeight = window.innerHeight - customThumb.offsetHeight;
+    const scrollableHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const scrollRatio = scrollableHeight / trackHeight;
+
+    window.scrollTo({
+      top: startScrollTop + deltaY * scrollRatio,
+      behavior: "auto",
+    });
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (isDragging) {
+      isDragging = false;
+      document.body.style.userSelect = "";
+      customThumb.style.backgroundColor = "var(--neon-mint)";
+    }
+  });
+
+  customScrollbar.addEventListener("click", (e) => {
+    if (e.target === customThumb) return;
+
+    const trackHeight = window.innerHeight - customThumb.offsetHeight;
+    const scrollableHeight =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const clickY = e.clientY - customThumb.offsetHeight / 2;
+    const clickRatio = clickY / trackHeight;
+
+    window.scrollTo({
+      top: clickRatio * scrollableHeight,
+      behavior: "smooth",
+    });
+  });
+}
+
+// ==========================================================================
+// 11. HİKAYESEL TEKNOLOJİ YIĞINI (YAZI DEĞİŞİMİ)
+// ==========================================================================
+const stickyTitle = document.getElementById("sticky-title");
+const stickyDesc = document.getElementById("sticky-desc");
+const phaseBlocks = document.querySelectorAll(".phase-block");
+
+if (stickyTitle && stickyDesc && phaseBlocks.length > 0) {
+  const phaseData = {
+    "phase-code": {
+      title:
+        'Sistemin<br><span class="text-gradient-white">Mühendisliği.</span>',
+      desc: "Kalıplara sığmıyoruz. Karmaşık problemleri hazır sistemlerle değil, işletmenize özel tasarlanmış güçlü ve ölçeklenebilir arka plan mimarileriyle çözüyoruz.",
+    },
+    "phase-design": {
+      title:
+        'Estetiğin<br><span class="text-gradient-white">Matematiği.</span>',
+      desc: "Kusursuz işleyen bir altyapıyı, kullanıcının aklına kazınan premium bir deneyimle taçlandırıyoruz. Markanızın ruhunu piksellere dökme zamanı.",
+    },
+  };
+
+  // HTML'de varsayılan olarak "phase-code" yazdığı için onu aktif kabul ediyoruz
+  let activePhaseId = "phase-code";
+
+  function changeText(newPhaseId) {
+    if (activePhaseId === newPhaseId) return;
+    activePhaseId = newPhaseId;
+
+    gsap.killTweensOf([stickyTitle, stickyDesc]);
+
+    gsap.to([stickyTitle, stickyDesc], {
+      opacity: 0,
+      y: -10,
+      duration: 0.3,
+      ease: "power2.inOut",
+      onComplete: () => {
+        stickyTitle.innerHTML = phaseData[newPhaseId].title;
+        stickyDesc.innerHTML = phaseData[newPhaseId].desc;
+
+        gsap.to([stickyTitle, stickyDesc], {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          ease: "power2.out",
+        });
+      },
+    });
+  }
+
+  // Kullanıcı hangi bölüme girerse (aşağı veya yukarı kaydırarak), yazıyı o bölüme göre değiştirir
+  phaseBlocks.forEach((block) => {
+    ScrollTrigger.create({
+      trigger: block,
+      start: "top center",
+      end: "bottom center",
+      onEnter: () => changeText(block.id),
+      onEnterBack: () => changeText(block.id),
+    });
+  });
+}
 
 // --------------------------------------------------------
 // 3. SPLASH EKRANI VE ANA GEÇİŞ MANTIĞI
@@ -542,10 +689,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     },
-    {
-      rootMargin: "-35% 0px -35% 0px",
-      threshold: 0,
-    },
+    { rootMargin: "-35% 0px -35% 0px", threshold: 0 },
   );
 
   bentoCards.forEach((card) => {
@@ -557,9 +701,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!isMobile) {
         card.addEventListener("mouseenter", () => lottie.play());
-        card.addEventListener("mouseleave", () => {
-          lottie.pause();
-        });
+        card.addEventListener("mouseleave", () => lottie.pause());
       } else {
         mobileObserver.observe(card);
       }
@@ -612,36 +754,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --------------------------------------------------------
-// 9. DİKEY HUD PROGRESS BAR (Sol Alt Kaydırma Çubuğu)
+// Son Önlem: Sayfa tam yüklendiğinde resimler geç gelirse diye hesaplamaları tazele
 // --------------------------------------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  const hudProgressFill = document.getElementById("hud-progress-fill");
-
-  if (hudProgressFill) {
-    window.addEventListener("scroll", () => {
-      const scrollableHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = window.scrollY;
-      let progress = (scrolled / scrollableHeight) * 100;
-      hudProgressFill.style.height = `${progress}%`;
-    });
-  }
+window.addEventListener("load", () => {
+  ScrollTrigger.refresh();
 });
-
-// --------------------------------------------------------
-// 10. FPS SAYACI (GELİŞTİRİCİ TESTİ)
-// --------------------------------------------------------
-// Canlıya çıkarken bu kısmı silebilirsin
-// (function () {
-//   var script = document.createElement("script");
-//   script.onload = function () {
-//     var stats = new Stats();
-//     document.body.appendChild(stats.dom);
-//     requestAnimationFrame(function loop() {
-//       stats.update();
-//       requestAnimationFrame(loop);
-//     });
-//   };
-//   script.src = "//mrdoob.github.io/stats.js/build/stats.min.js";
-//   document.head.appendChild(script);
-// })();
