@@ -20,7 +20,6 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 2fr;
-  /* Masaüstü: Sol 1 birim, Sağ 2 birim */
   gap: 80px;
   align-items: flex-start;
 }
@@ -30,7 +29,6 @@
   position: sticky;
   top: 20vh;
   min-width: 0;
-  /* GÜNCELLEME: Kolonun içeriğe göre esnemesini ve titremeyi engeller */
 }
 
 .story-sticky-left h2 {
@@ -39,12 +37,7 @@
   margin-bottom: 25px;
   color: var(--text-main);
   word-wrap: break-word;
-  /* GÜNCELLEME: Uzun kelimelerin ızgarayı bozmasını önler */
   overflow-wrap: break-word;
-}
-
-.highlight {
-  color: var(--neon-mint);
 }
 
 .story-sticky-left p {
@@ -60,22 +53,21 @@
   flex-direction: column;
   gap: 120px;
   min-width: 0;
-  /* GÜNCELLEME: Kolonun içeriğe göre esnemesini engeller */
 }
 
 .phase-block {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 50px;
 }
 
 .phase-number {
-  font-size: 0.9rem;
+  font-size: 2.5rem;
   color: var(--neon-mint);
-  letter-spacing: 3px;
+  letter-spacing: 10px;
   text-transform: uppercase;
   font-weight: bold;
-  display: block;
+  display: inline-block;
   border-bottom: 1px solid var(--border-neon);
   padding-bottom: 10px;
   width: fit-content;
@@ -87,53 +79,99 @@
   margin: 0;
 }
 
-/* İÇERİK MADDELERİ */
+/* YENİ: TEKNOLOJİ -> AMAÇ KARTLARI */
 .tech-philosophies {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 40px;
 }
 
 .philo-item {
-  border-left: 3px solid var(--border-neon);
-  padding: 25px 0 25px 30px;
-  border-radius: 0 12px 12px 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 30px 40px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sol tarafa ince neon bir çizgi ekleyerek kartı belirginleştirdik */
+.philo-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--border-neon);
   transition: all 0.3s ease;
 }
 
 .philo-item:hover {
-  border-left-color: var(--neon-mint);
-  background: var(--card-bg);
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+  background: rgba(1, 253, 208, 0.04);
+  border-color: rgba(1, 253, 208, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.philo-item:hover::before {
+  background: var(--neon-mint);
+}
+
+/* Üst Kısım: Hangi Teknoloji? */
+.tech-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 15px;
 }
 
 .philo-tech {
-  font-size: 0.85rem;
+  font-size: 1.1rem;
   color: var(--neon-mint);
-  background: var(--border-neon);
-  padding: 6px 14px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 800;
   letter-spacing: 1px;
-  display: inline-block;
 }
 
-.philo-item h4 {
-  font-size: 1.6rem;
-  color: var(--text-main);
-  margin: 20px 0 15px 0;
+/* Alt Kısım: Ne İçin Kullanıyoruz? */
+.tech-purpose {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 5px;
 }
 
-.philo-item p {
+.purpose-label {
+  font-size: 0.9rem;
+  font-weight: 800;
+
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  /* YENİ EKLENEN KISIM: Şık Alt Çizgi */
+  border-bottom: 2px solid var(--neon-mint);
+  /* Neon mint renginin hafif saydam hali */
+  padding-bottom: 5px;
+  /* Çizgi ile yazı arasındaki boşluk */
+  width: fit-content;
+  /* Çizginin sadece yazının uzunluğu kadar olmasını sağlar */
+}
+
+.tech-purpose p {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: var(--text-muted);
-  opacity: 0.85;
-  max-width: 95%;
+  color: var(--text-main);
+  /* Paragraf rengini açtık ki okuması kolay olsun */
+  margin: 0;
 }
 
-/* MOBİL (Yan yana tutma zorlaması ve sol tarafın daraltılması) */
+/* MOBİL UYARLAMA */
 @media (max-width: 768px) {
   .tech-story-section {
     padding: 60px 10px;
@@ -141,15 +179,11 @@
 
   .tech-story-container {
     gap: 15px;
-    /* Kolonlar arası boşluğu kısalttık */
-    /* GÜNCELLEME: Sol taraf daraltıldı. Yüzde kullanarak animasyon kaymalarını (titremeyi) kilitledik. */
     grid-template-columns: 40% 60%;
   }
 
-  /* Sol taraf mobil ayarları */
   .story-sticky-left h2 {
     font-size: 1.5rem;
-    /* Alan daraldığı için fontu ufak bir miktar daha küçülttük */
     margin-bottom: 12px;
   }
 
@@ -158,46 +192,20 @@
     line-height: 1.35;
   }
 
-  /* Sağ taraf mobil ayarları */
   .story-scroll-right {
-    gap: 50px;
-  }
-
-  .phase-block {
-    gap: 20px;
-  }
-
-  .phase-number {
-    font-size: 0.7rem;
-    letter-spacing: 1px;
-  }
-
-  .phase-block h3 {
-    font-size: 1.4rem;
-  }
-
-  .tech-philosophies {
-    gap: 30px;
+    gap: 60px;
   }
 
   .philo-item {
-    padding: 15px 0 15px 12px;
-    /* Mobilde soldaki çizgiye olan mesafe kısıldı */
+    padding: 20px 20px 20px 25px;
   }
 
   .philo-tech {
-    font-size: 0.7rem;
-    padding: 4px 10px;
+    font-size: 0.9rem;
   }
 
-  .philo-item h4 {
-    font-size: 1.1rem;
-    margin: 10px 0;
-  }
-
-  .philo-item p {
-    font-size: 0.85rem;
-    line-height: 1.4;
+  .tech-purpose p {
+    font-size: 0.9rem;
   }
 }
 
@@ -210,7 +218,7 @@
   --deep-space: #01060a;
   --electric-blue: #0070ff;
   --text-main: #fdfdfd;
-  --text-muted: #eeeeee;
+  --text-muted: #f7f7f7;
   --border-neon: rgba(0, 255, 209, 0.12);
 }
 
@@ -219,6 +227,27 @@
   src: url("../fonts/Agale.woff2") format("opentype");
   font-display: swap;
 }
+
+.cls-1 {
+  fill: #01fdd0;
+}
+
+.cls-2 {
+  fill: #00010100;
+}
+
+.cls-3 {
+  fill: #06f7cc;
+}
+
+.cls-4 {
+  fill: #02fccf;
+}
+
+.cls-5 {
+  fill: #fdfdfd;
+}
+
 
 /* ==========================================================================
    1. GLOBAL RESET & TEMEL AYARLAR
@@ -1148,7 +1177,6 @@ html {
   display: flex;
   height: 550px;
   gap: 16px;
-  max-width: 1300px;
   margin: 40px auto 0;
   contain: layout;
 }
@@ -1259,6 +1287,7 @@ html {
 
 .exp-icon {
   font-size: 3rem;
+  color: var(--neon-mint);
 }
 
 .exp-header h3 {
@@ -1318,6 +1347,129 @@ html {
 .acc-panel:hover .acc-bg-image,
 .acc-panel.active .acc-bg-image {
   opacity: 0.15;
+}
+
+/* --- MOBİL UYUMLU SERVİSLER --- */
+@media (max-width: 991px) {
+
+  /* Genel Kapsayıcı: Sabit yüksekliği kaldırıp dikey akışa geçiyoruz */
+  .accordion-gallery {
+    flex-direction: column;
+    height: auto;
+    gap: 12px;
+    margin-top: 20px;
+    display: flex;
+    /* Alt alta dizilimi garanti eder */
+  }
+
+  /* Kartlar: Sağa genişlemek yerine aşağı genişleyecek */
+  .acc-panel {
+    width: 100%;
+    flex: none !important;
+    /* Masaüstündeki flex: 1 özelliğini kapatır */
+    height: 70px;
+    /* Başlangıçta (kapalıyken) yükseklik */
+    border-radius: 20px;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    /* İçeriği dikey sırala */
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  /* Aktif/Hover Durumu: Kartın aşağı doğru açılması */
+  .acc-panel:hover,
+  .acc-panel.active {
+    flex: none !important;
+    height: auto;
+    /* İçerik kadar uzasın */
+    min-height: 380px;
+    /* Çok kısa kalmaması için */
+    background: var(--card-hover);
+    padding-bottom: 30px;
+  }
+
+  /* Dikey Yazıları Yataya Çeviriyoruz */
+  .vertical-title {
+    position: relative;
+    /* Absolute'u iptal edip en üste sabitliyoruz */
+    flex-direction: row;
+    /* Numara ve metni yan yana getir */
+    justify-content: flex-start;
+    height: 70px;
+    min-height: 70px;
+    padding: 0 25px;
+    gap: 15px;
+    opacity: 1 !important;
+    /* Mobilde her zaman görünür */
+  }
+
+  .v-text {
+    writing-mode: horizontal-tb;
+    /* Yazıyı düzelt */
+    transform: rotate(0deg);
+    /* Döndürmeyi kaldır */
+    font-size: 1.1rem;
+    color: #fff;
+  }
+
+  /* Kart Açıldığında Başlığı Hafiflet (İsteğe bağlı) */
+  .acc-panel:hover .vertical-title,
+  .acc-panel.active .vertical-title {
+    opacity: 0.5 !important;
+  }
+
+  /* Genişleyen İçerik Alanı */
+  .expanded-content {
+    opacity: 0;
+    visibility: hidden;
+    padding: 10px 25px 20px 25px;
+    width: 100%;
+    min-width: 100%;
+    /* Taşmayı önle */
+    transform: translateY(10px);
+    /* Masaüstündeki sağdan gelişi aşağıdan gelişe çevir */
+    transition: all 0.4s ease;
+  }
+
+  .acc-panel:hover .expanded-content,
+  .acc-panel.active .expanded-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition-delay: 0.2s;
+  }
+
+  /* Mobil Tipografi Ayarları */
+  .exp-header {
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .exp-icon {
+    font-size: 2rem;
+  }
+
+  .exp-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .exp-list {
+    gap: 12px;
+  }
+
+  .exp-list li {
+    font-size: 1rem;
+  }
+
+  /* Arka plandaki dev rakam mobilde çok yer kaplamasın */
+  .acc-bg-number {
+    font-size: 7rem;
+    top: auto;
+    bottom: -10px;
+    right: 0px;
+  }
 }
 
 /* ==========================================================================
@@ -1478,7 +1630,8 @@ html {
   border: 1px solid var(--border-neon);
   border-radius: 40px;
   display: flex;
-  height: 60vh;
+  /* Sabit 60vh yerine min-height veriyoruz ki içerik çok uzarsa kart taşmayı engellesin */
+  min-height: 60vh;
   overflow: hidden;
   transition: transform 0.4s, border-color 0.4s;
 }
@@ -1489,7 +1642,8 @@ html {
 
 .project-info {
   flex: 0 0 45%;
-  padding: 80px 60px;
+  /* 80px 60px çok fazlaydı, içeriye nefes aldıracak kadar daralttık */
+  padding: 50px 45px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1519,20 +1673,24 @@ html {
 }
 
 .project-title {
-  font-size: 2.8rem;
+  /* 2.8rem dar alan için çok büyük, 2.3rem ideal bir manşet boyutudur */
+  font-size: 2.3rem;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.2;
   color: #fff;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
+  /* 25px'ten 15px'e çektik */
   letter-spacing: -0.03em;
 }
 
 .project-desc {
-  font-size: 1.15rem;
+  /* Fontu çok hafif küçültüp, alttaki boşluğu azalttık */
+  font-size: 1.05rem;
   color: var(--text-muted);
   line-height: 1.6;
-  margin-bottom: 40px;
-  max-width: 90%;
+  margin-bottom: 25px;
+  /* 40px'ten 25px'e çektik */
+  max-width: 95%;
 }
 
 .btn-project-link {
@@ -1583,6 +1741,113 @@ html {
 .solid-card:hover .mockup-image {
   transform: scale3d(1.05, 1.05, 1);
   opacity: 1;
+}
+
+@media (max-width: 991px) {
+
+  /* Stacking efektinin çalışması için kapsayıcıyı serbest bırak */
+  .section-selected-works {
+    overflow: visible !important;
+  }
+
+  /* Kartların yapışma (sticky) ayarları */
+  .stacked-card {
+    position: sticky;
+    /* Mobilde kartların birbirinden ne kadar görüneceğini ayarlar */
+    padding-top: 0 !important;
+    margin-bottom: 60px;
+    /* Kartlar arasındaki boşluk */
+  }
+
+  .card-1 {
+    top: 15vh !important;
+  }
+
+  .card-2 {
+    top: 16vh !important;
+  }
+
+  .card-3 {
+    top: 17vh !important;
+  }
+
+  .card-4 {
+    top: 18vh !important;
+  }
+
+  .solid-card {
+    display: flex;
+    flex-direction: column;
+    /* Yan yana duruşu zorla */
+    min-height: 70vh !important;
+    /* Masaüstündeki 60vh mobilde çok fazla, 40vh ideal */
+    height: 40vh;
+    border-radius: 20px;
+    align-items: stretch;
+  }
+
+  .project-info {
+    flex: 0 0 60%;
+    /* Metin alanı %60 */
+    padding: 20px;
+    justify-content: center;
+  }
+
+  .project-visual {
+    flex: 0 0 40%;
+    /* Görsel alanı %40 */
+    display: block !important;
+  }
+
+  /* Mobilde yazıların okunabilmesi için boyut küçültme */
+  .project-title {
+    font-size: 1.1rem !important;
+    /* Başlık çok yer kaplamasın */
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .project-desc {
+    font-size: 0.75rem !important;
+    /* Açıklama fontunu küçültüyoruz */
+    line-height: 1.4;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    /* Yazı çok uzunsa 4 satırda keser */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .meta-tag {
+    font-size: 0.6rem;
+    padding: 3px 8px;
+    letter-spacing: 1px;
+  }
+
+  .meta-year {
+    font-size: 0.7rem;
+  }
+
+  .btn-project-link {
+    font-size: 0.8rem;
+    padding-bottom: 2px;
+  }
+}
+
+/* Çok küçük ekranlar için (iPhone SE vb.) */
+@media (max-width: 480px) {
+  .solid-card {
+    height: 45vh;
+    /* Biraz daha yükseklik verelim */
+  }
+
+  .project-info {
+    flex: 0 0 65%;
+  }
+
+  .project-visual {
+    flex: 0 0 35%;
+  }
 }
 
 /* ==========================================================================
@@ -1895,6 +2160,7 @@ html {
   display: block;
   filter: brightness(0.85) contrast(1.1);
   /* Karanlık temaya uyması için */
+  border-radius: 22px;
 }
 
 /* ==========================================================================
@@ -1956,8 +2222,9 @@ html {
 ========================================================================== 
 */
 
+/* --- FOOTER GENEL --- */
 .fluid-footer {
-  padding: 60px 0 40px;
+  padding: 80px 0 40px;
   background: var(--deep-space);
   border-top: 1px solid rgba(255, 255, 255, 0.03);
   position: relative;
@@ -1967,10 +2234,16 @@ html {
 .footer-cta-wrapper {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 120px;
+  align-items: center;
+  margin-bottom: 100px;
   position: relative;
   z-index: 2;
+  gap: 50px;
+}
+
+/* --- SOL: YAZI ALANI --- */
+.footer-title-area {
+  max-width: 550px;
 }
 
 .footer-huge-title {
@@ -1979,13 +2252,13 @@ html {
   line-height: 0.9;
   color: #fff;
   letter-spacing: -0.04em;
+  margin-bottom: 30px;
 }
 
 .text-outline {
   color: transparent;
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
   -webkit-text-stroke-color: var(--neon-mint);
-
   transition: all 0.4s ease;
 }
 
@@ -1994,64 +2267,283 @@ html {
   text-shadow: 0 0 20px rgba(0, 255, 209, 0.2);
 }
 
-.footer-action-area {
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 30px;
-}
-
-.footer-action-area p {
+.footer-huge-desc {
   color: var(--text-muted);
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   line-height: 1.6;
 }
 
-.magnetic-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 15px;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--neon-mint);
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 5px;
+/* --- SAĞ: DÖNÜŞEN KART ALANI --- */
+.footer-meeting-area {
+  width: 100%;
+  max-width: 420px;
+}
+
+.meeting-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  width: 100%;
+  height: 380px;
+  /* Kayma animasyonu için sabit yükseklik şart */
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.meeting-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(0, 255, 209, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.meeting-inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Textarea'yı da bu kurala dahil ettik */
+.meeting-inline-form input,
+.meeting-inline-form select,
+.meeting-inline-form textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
   transition: all 0.3s ease;
 }
 
-.magnetic-btn:hover {
-  border-bottom-color: var(--neon-mint);
-  text-shadow: 0 0 15px rgba(0, 255, 209, 0.4);
+.meeting-inline-form input:focus,
+.meeting-inline-form select:focus,
+.meeting-inline-form textarea:focus {
+  outline: none;
+  border-color: var(--neon-mint);
+  background: rgba(0, 255, 209, 0.05);
 }
 
-.magnetic-btn .arrow {
-  transition: transform 0.3s;
+.meeting-inline-form textarea {
+  resize: none;
+  /* Kullanıcının köşeden tutup formu bozmasını engeller */
 }
 
-.magnetic-btn:hover .arrow {
-  transform: translate(5px, -5px);
-}
-
-.footer-bottom-fluid {
+/* Ön ve Arka Yüz Yerleşim ve Animasyonu */
+.meeting-front,
+.meeting-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 40px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.meeting-front {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.meeting-back {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(50px);
+}
+
+/* Butona basılınca form-active class'ı eklenir ve yüzler yer değiştirir */
+.meeting-card.form-active .meeting-front {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50px);
+}
+
+.meeting-card.form-active .meeting-back {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* Ön Yüz İçerik Stilleri */
+.meeting-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 255, 209, 0.1);
+  color: var(--neon-mint);
+  border-radius: 18px;
+  display: flex;
   align-items: center;
-  padding-top: 40px;
+  justify-content: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.meeting-card:hover .meeting-icon-wrapper {
+  transform: scale(1.05) rotate(-5deg);
+}
+
+.meeting-front h3 {
+  color: #fff;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.meeting-front p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+/* Arka Yüz (Form) İçerik Stilleri */
+.back-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.back-btn:hover {
+  background: var(--neon-mint);
+  color: var(--deep-space);
+  border-color: var(--neon-mint);
+}
+
+.back-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.meeting-inline-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.meeting-inline-form input,
+.meeting-inline-form select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.meeting-inline-form input:focus,
+.meeting-inline-form select:focus {
+  outline: none;
+  border-color: var(--neon-mint);
+  background: rgba(0, 255, 209, 0.05);
+}
+
+.meeting-inline-form select option {
+  background: var(--deep-space);
+  color: #fff;
+}
+
+.inline-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+/* Ortak Buton Stilleri */
+.meeting-action-btn,
+.submit-meeting-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--neon-mint);
+  color: var(--deep-space);
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.meeting-action-btn i,
+.submit-meeting-btn i {
+  transition: transform 0.3s ease;
+}
+
+.meeting-action-btn:hover,
+.submit-meeting-btn:hover {
+  background: #fff;
+  transform: scale(1.02);
+}
+
+.meeting-action-btn:hover i {
+  transform: translateX(5px);
+}
+
+.submit-meeting-btn:hover i {
+  transform: translateY(-3px) translateX(3px);
+}
+
+/* --- ALT BÖLÜM: 3 KOLONLU LİNKLER --- */
+.footer-bottom-fluid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 50px;
+  padding-top: 50px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .f-tagline {
   color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-top: 5px;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-top: 15px;
+  max-width: 80%;
+}
+
+.f-col-title {
+  display: block;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  letter-spacing: 0.02em;
 }
 
 .f-links-col,
 .f-social-col {
   display: flex;
-  gap: 30px;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .f-links-col a,
@@ -2059,21 +2551,194 @@ html {
   color: var(--text-muted);
   text-decoration: none;
   font-size: 1rem;
-  transition: color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  transition: all 0.3s ease;
 }
 
 .f-links-col a:hover,
 .f-social-col a:hover {
-  color: #fff;
+  color: var(--neon-mint);
+  transform: translateX(8px);
+}
+
+.f-social-col a i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.f-social-col a:hover i {
+  transform: scale(1.1);
 }
 
 .footer-copyright {
-  margin-top: 40px;
-  text-align: center;
-  color: rgba(255, 255, 255, 0.2);
-  font-size: 0.85rem;
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.9rem;
 }
 
+.copyright-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+}
+
+/* --- ÖZEL TAKVİM (FLATPICKR) TEMASI --- */
+.flatpickr-calendar {
+  background: var(--deep-space) !important;
+  border: 1px solid rgba(0, 255, 209, 1) !important;
+  border-radius: 16px !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+}
+
+.flatpickr-month,
+.flatpickr-weekday {
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  background: var(--deep-space) !important;
+  color: #fff !important;
+}
+
+span.flatpickr-weekday {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 600;
+}
+
+.flatpickr-day {
+  color: #fff !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.flatpickr-day:hover {
+  background: rgba(0, 255, 209, 0.5) !important;
+  border-color: transparent !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.selected:hover {
+  background: var(--neon-mint) !important;
+  border-color: var(--neon-mint) !important;
+  color: var(--deep-space) !important;
+  font-weight: 700 !important;
+}
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+  color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.flatpickr-calendar.arrowTop:before,
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: var(--deep-space) !important;
+}
+
+.flatpickr-calendar.arrowBottom:before,
+.flatpickr-calendar.arrowBottom:after {
+  border-top-color: var(--deep-space) !important;
+}
+
+/* --- FORM BAŞARI MESAJI STİLLERİ --- */
+.form-success-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.success-icon {
+  font-size: 3.5rem;
+  color: var(--neon-mint);
+  margin-bottom: 15px;
+}
+
+.form-success-state h3 {
+  color: #fff;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.form-success-state p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- MOBİL UYUMLULUK --- */
+@media (max-width: 992px) {
+  .footer-cta-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 50px;
+  }
+
+  .footer-meeting-area,
+  .meeting-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .footer-bottom-fluid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-bottom-fluid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .f-tagline {
+    max-width: 100%;
+    margin: 15px auto 0;
+  }
+
+  .f-links-col,
+  .f-social-col {
+    align-items: center;
+  }
+
+  .f-links-col a:hover,
+  .f-social-col a:hover {
+    transform: translateY(-3px);
+  }
+
+  .inline-input-group {
+    flex-direction: column;
+  }
+
+  /* Mobilde takvim ve seçici alt alta gelsin */
+}
 
 /* ==========================================================================
    16. MOBİL & TABLET UYARLAMALARI (MEDIA QUERIES)
@@ -2227,106 +2892,6 @@ html {
     transform: translateZ(0) !important;
   }
 
-  /* Akordeon Menü (Hizmetler) Mobil */
-  .accordion-gallery {
-    flex-direction: column;
-    height: 700px;
-    margin: 30px 15px 0;
-  }
-
-  .acc-panel {
-    border-radius: 24px;
-    align-items: flex-start;
-  }
-
-  .vertical-title {
-    flex-direction: row;
-    justify-content: flex-start;
-    padding-left: 25px;
-    gap: 15px;
-  }
-
-  .v-text {
-    writing-mode: horizontal-tb;
-    transform: none;
-    font-size: 1.3rem;
-  }
-
-  .acc-panel:hover .vertical-title,
-  .acc-panel.active .vertical-title {
-    transform: scale(0.9) translate3d(-10px, 0, 0);
-  }
-
-  .acc-panel:hover,
-  .acc-panel.active {
-    flex: 4;
-  }
-
-  .expanded-content {
-    min-width: 100%;
-    padding: 0 25px;
-    transform: translate3d(0, 20px, 0);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-  }
-
-  .acc-panel:hover .expanded-content,
-  .acc-panel.active .expanded-content {
-    transform: translate3d(0, 0, 0);
-  }
-
-  /* Seçilmiş İşler Mobil Kartlar */
-  .solid-card {
-    flex-direction: column;
-    height: auto;
-    min-height: 500px;
-  }
-
-  .project-info {
-    flex: none;
-    padding: 30px 20px;
-  }
-
-  .project-title {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-  }
-
-  .project-desc {
-    font-size: 1rem;
-    max-width: 100%;
-    margin-bottom: 25px;
-  }
-
-  .project-visual {
-    min-height: 250px;
-  }
-
-  .stacked-card {
-    position: -webkit-sticky !important;
-    position: sticky !important;
-    margin-bottom: 40px !important;
-    padding-top: calc(var(--index) * 15px) !important;
-  }
-
-  .card-1 {
-    top: 15vh !important;
-  }
-
-  .card-2 {
-    top: 17vh !important;
-  }
-
-  .card-3 {
-    top: 19vh !important;
-  }
-
-  .card-4 {
-    top: 21vh !important;
-  }
-
   /* Kutusuz Bölümler & Vitrin Mobil */
   .showcase-item {
     width: 75vw;
@@ -2379,6 +2944,7 @@ html {
   .manifesto-grid {
     grid-template-columns: 1fr;
     gap: 60px;
+    flex-direction: row;
   }
 
   .fluid-desc {
@@ -2542,6 +3108,48 @@ html {
   transform: translateY(-2px);
 }
 
+/* Tablet ve Mobil Uyumluluk */
+@media (max-width: 992px) {
+  .team-badge-container {
+    grid-template-columns: 1fr;
+    /* Mobilde tek sütun yap */
+    padding: 0 20px;
+    /* Kenarlardan nefes payı */
+    gap: 40px;
+  }
+
+  .t-image-wrapper {
+    height: 280px;
+    /* Küçük ekranlarda resim boyunu biraz daraltalım */
+  }
+
+  .t-name {
+    font-size: 1.8rem;
+    /* Metin boyutunu mobilde optimize et */
+  }
+}
+
+@media (max-width: 480px) {
+  .section-team-grid {
+    padding: 40px 0;
+  }
+
+  .t-info {
+    padding: 20px;
+    /* İç boşlukları daralt */
+  }
+
+  .t-name {
+    font-size: 1.5rem;
+    /* Çok küçük ekranlar için başlık ayarı */
+  }
+
+  .t-desc {
+    font-size: 0.9rem;
+    /* Okunabilirliği koru */
+  }
+}
+
 /* ==========================================================================
    18. S.S.S. (SOL SABİT YAZI - SAĞ KUTULU AKORDEON)
 ========================================================================== 
@@ -2646,25 +3254,72 @@ html {
 }
 
 @media (max-width: 768px) {
+  .section-faq-split {
+    padding: 30px 0;
+  }
+
   .faq-grid {
+    display: grid;
+    /* Masaüstündeki yan yana yapıyı koruyoruz */
+    grid-template-columns: 0.7fr 1.3fr;
     gap: 15px;
-    /* Aradaki boşluğu daralt ki alan açılsın */
+    align-items: start;
+    /* Sticky'nin çalışması için elemanları yukarı hizalar */
   }
 
-  .giant-title {
-    font-size: 1.5rem;
-    /* Başlık çok büyükse sütunu dışarı iter, biraz küçülttük */
+  .faq-left {
+    position: sticky;
+    /* Tam olarak istediğin 15vh boşluğu burada tanımlıyoruz */
+    top: 15vh;
+    z-index: 10;
+  }
+
+  .faq-left h2 {
+    font-size: 1.1rem;
+    line-height: 1.3;
+    /* Kelimelerin kutudan taşmasını önleyen ve alt satıra iten kurallar */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
     word-break: break-word;
+    margin: 0;
   }
 
-  .faq-question h3 {
-    font-size: 0.9rem;
-    /* Soru metni kutuya sığsın */
+  .faq-left p {
+    font-size: 0.8rem;
+    margin-top: 10px;
+    line-height: 1.4;
+    /* Çok uzun metinlerin sticky alanını taşırmaması için */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .faq-item {
-    padding: 0 15px;
-    /* Kenar boşluklarını azalttık */
+    padding: 0 12px;
+    border-radius: 16px;
+  }
+
+  .faq-question {
+    padding: 20px 0;
+  }
+
+  .faq-question h3 {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    /* Soru metinlerinin de taşmasını önler */
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  .faq-icon {
+    font-size: 1.2rem;
+  }
+
+  .faq-answer-inner p {
+    font-size: 0.8rem;
+    line-height: 1.5;
   }
 }
 
