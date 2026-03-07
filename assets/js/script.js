@@ -759,3 +759,134 @@ document.addEventListener("DOMContentLoaded", () => {
 window.addEventListener("load", () => {
   ScrollTrigger.refresh();
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const meetingCard = document.getElementById("interactiveMeetingCard");
+  const openFormBtn = document.getElementById("openFormBtn");
+  const closeFormBtn = document.getElementById("closeFormBtn");
+
+  if (meetingCard && openFormBtn && closeFormBtn) {
+    // "Takvimi Aç" Butonuna tıklanınca kartı sola kaydırıp formu getirir
+    openFormBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      meetingCard.classList.add("form-active");
+    });
+
+    // Geri okuna basınca formu sağa kaydırıp ana yazıyı getirir
+    closeFormBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      meetingCard.classList.remove("form-active");
+    });
+  }
+});
+// Özel Takvimi Başlat
+flatpickr("#customDate", {
+  locale: "tr",
+  minDate: "today",
+  dateFormat: "d.m.Y",
+  disableMobile: "true",
+  appendTo: document.body, // Takvimi kartın dışına (body'ye) çıkartır
+  position: "auto center", // Sağdan kesilmemesi için input'un tam ortasına hizalar
+});
+// Form Gönderme İşlemi (Sayfa Yenilenmesini Engeller)
+const meetingForm = document.getElementById("meetingForm");
+const successMessage = document.getElementById("formSuccessMessage");
+const submitBtn = document.getElementById("submitBtn");
+
+if (meetingForm) {
+  meetingForm.addEventListener("submit", async function (e) {
+    e.preventDefault(); // Sayfanın başka yere yönlenmesini İPTAL EDER
+
+    // Buton metnini değiştirip yükleniyor efekti verelim
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML =
+      'Gönderiliyor... <i class="fa-solid fa-spinner fa-spin"></i>';
+    submitBtn.disabled = true;
+
+    const data = new FormData(meetingForm);
+    const actionUrl = meetingForm.getAttribute("action");
+
+    try {
+      const response = await fetch(actionUrl, {
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json", // Formspree'ye JSON beklediğimizi söylüyoruz
+        },
+      });
+
+      if (response.ok) {
+        // Başarılı olursa formu gizle, başarı mesajını göster
+        meetingForm.style.display = "none";
+        successMessage.style.display = "flex";
+        meetingForm.reset(); // Formu temizle
+
+        // Kartı kapat butonunu da gizleyebiliriz veya bırakabiliriz
+        document.querySelector(".back-header").style.display = "none";
+
+        // İsteğe bağlı: 4 saniye sonra kartı otomatik ilk haline çevir
+        setTimeout(() => {
+          document
+            .getElementById("interactiveMeetingCard")
+            .classList.remove("form-active");
+          // Bir sonraki kullanım için form yüzünü sıfırla
+          setTimeout(() => {
+            meetingForm.style.display = "flex";
+            successMessage.style.display = "none";
+            document.querySelector(".back-header").style.display = "flex";
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+          }, 500);
+        }, 4000);
+      } else {
+        alert("Gönderim sırasında bir hata oluştu. Lütfen tekrar deneyin.");
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
+    } catch (error) {
+      alert("Bağlantı hatası oluştu.");
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.disabled = false;
+    }
+  });
+}
+document.querySelectorAll("*").forEach((el) => {
+  if (el.offsetWidth > document.documentElement.offsetWidth)
+    console.log("Taşan Eleman:", el);
+});
+window.addEventListener("load", () => {
+  // Sayfa tamamen yüklendiğinde ScrollTrigger'ı yeniden hesapla
+  setTimeout(() => {
+    ScrollTrigger.refresh();
+  }, 500); // Yarım saniye gecikme her zaman iyidir
+});
+// Lenis Smooth Scroll Başlatma
+const lenis = new Lenis({
+  duration: 1.2, // Kaydırma hızı (saniye)
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Pürüzsüzlük eğrisi
+  direction: "vertical",
+  gestureDirection: "vertical",
+  smoothWheel: true,
+  smoothTouch: false, // Mobilde native dokunmatik hissi korumak için false (isteğe bağlı true yapılabilir)
+  touchMultiplier: 2,
+});
+
+// GSAP ScrollTrigger ile Lenis'i Senkronize Et
+lenis.on("scroll", ScrollTrigger.update);
+
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+
+gsap.ticker.lagSmoothing(0);
+
+// Anchor (Link) Bağlantıları İçin Yumuşak Geçiş (Opsiyonel)
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute("href"));
+    if (target) {
+      lenis.scrollTo(target);
+    }
+  });
+});
