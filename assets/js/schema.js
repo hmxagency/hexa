@@ -30,6 +30,7 @@ const schemaData = {
       "Thursday",
       "Friday",
       "Saturday",
+      "Sunday",
     ],
     opens: "08:00",
     closes: "18:00",
